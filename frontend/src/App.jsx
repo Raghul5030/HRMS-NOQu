@@ -15,9 +15,8 @@ import { LoginPage } from './auth/AdminLogin.jsx'
 import { EnterEmailPage} from './auth/email.jsx'
 import { EmailVerificationPage } from './auth/emialVerification.jsx'
 import { ForgetPassword } from './auth/ForgetPassword.jsx' 
-
-
-
+import { InterviewForm } from './pages/interview_form/interview_form.jsx'
+import { InterviewSuccess } from './pages/interview_form/interviewFormSccess.jsx'
 function App() {
 
 
@@ -27,6 +26,8 @@ function App() {
     <Route path='/Email' element={<EnterEmailPage/>}/>
     <Route path='/forgetPassword' element={<ForgetPassword />}/>
     <Route path='/verification' element={<EmailVerificationPage/>}/>
+    <Route path='/interviewForm' element={<InterviewForm/>}/>
+    <Route path="/interview-success" element={<InterviewSuccess/>} />
     <Route element={<PrivateRoute/>}>
       <Route  element={ <AdminLayout />}>
         <Route path='/dashboard' element={<Dashboard />}/>

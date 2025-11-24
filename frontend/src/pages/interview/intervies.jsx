@@ -27,8 +27,8 @@ const Interview = () => {
   });
 
   const getDetials = async () => {
-    alert("Note: Updates may take time to appear due to server limits after submiting Interview form.");
-    const res = await axios.get("https://hrms-software.onrender.com/getform");
+    // alert("Note: Updates may take time to appear due to server limits after submiting Interview form.");
+    const res = await axios.get("http://localhost:3000/getform");
     setuser(res.data);
   };
 
@@ -48,20 +48,21 @@ const Interview = () => {
 
   };
 
-const handleConfirmSelect = async () => {
-  try {
-    const { conductedBy, ctc, role, doj } = selectDetails;
-    await axios.post("https://hrms-software.onrender.com/UpdateInterview", {
-      ...selectedUser,
-      STATUS: "Selected",
-      CONDUCTED_BY: conductedBy,
-      CTC: ctc,
-      ROLE: role
-    });
-    getDetials();
-    toast.success("Candidate Selected", { position: 'top-right' });
+  const handleConfirmSelect = async () => {
+    try {
+      const { conductedBy, ctc, role, doj } = selectDetails;
+      await axios.post("http://localhost:3000/UpdateInterview", {
+        ...selectedUser,
+        STATUS: "Selected",
+        CONDUCTED_BY: conductedBy,
+        CTC: ctc,
+        ROLE: role,
+        DOJ: doj
+      });
+      getDetials();
+      toast.success("Candidate Selected", { position: 'top-right' });
 
-   await axios.post("https://hrms-software.onrender.com/addinter", {
+      await axios.post("http://localhost:3000/addinter", {
         NAME: selectedUser.NAME,
         GENDER: selectedUser.GENDER,
         DATE_OF_BIRTH: selectedUser.DOB?.split("T")[0],
@@ -73,12 +74,12 @@ const handleConfirmSelect = async () => {
         DESIGNATION: role,
         DOJ: doj
       });
-    setShowSelectModal(false);
-  } catch (error) {
-    console.error("Selection error:", error);
-    toast.error(error.response?.data?.message || "Something went wrong", { position: 'top-right' });
-  }
-};
+      setShowSelectModal(false);
+    } catch (error) {
+      console.error("Selection error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong", { position: 'top-right' });
+    }
+  };
 
 
   const handleRejectClick = (employee) => {
@@ -90,7 +91,7 @@ const handleConfirmSelect = async () => {
 
   const handleConfirmReject = async () => {
     try {
-      await axios.post("https://hrms-software.onrender.com/UpdateInterviewReject", {
+      await axios.post("http://localhost:3000/UpdateInterviewReject", {
         ...rejectingUser,
         STATUS: "Rejected",
         REJECTION_REASON: rejectionReason,
@@ -168,7 +169,7 @@ const handleConfirmSelect = async () => {
               Reject {rejectingUser.NAME}?
             </h2>
             <p className="text-sm mb-2">Enter rejection details:</p>
-            
+
             <div className="mb-3">
               <label className="block text-sm font-medium text-gray-700 mb-1">Conducted By</label>
               <input
@@ -179,7 +180,7 @@ const handleConfirmSelect = async () => {
                 placeholder="Interviewer name"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Rejection Reason</label>
               <textarea
@@ -190,7 +191,7 @@ const handleConfirmSelect = async () => {
                 placeholder="Reason for rejection..."
               />
             </div>
-            
+
             <div className="flex justify-end gap-2">
               <button onClick={() => setShowRejectModal(false)} className="px-3 py-2 bg-gray-200 rounded">Cancel</button>
               <button onClick={handleConfirmReject} className="px-3 py-2 bg-red-500 text-white rounded">Confirm</button>
@@ -218,7 +219,7 @@ const handleConfirmSelect = async () => {
                   className="w-full border rounded px-3 py-2"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">CTC</label>
                 <input
@@ -229,7 +230,7 @@ const handleConfirmSelect = async () => {
                   className="w-full border rounded px-3 py-2"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
                 <input
@@ -240,7 +241,7 @@ const handleConfirmSelect = async () => {
                   className="w-full border rounded px-3 py-2"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Date of Joining</label>
                 <input
@@ -263,14 +264,14 @@ const handleConfirmSelect = async () => {
 
       {/* Main Content with Yellow Table */}
       <div className="flex-1 p-7 pl-10 overflow-hidden bg-gray-50">
-       <h1 className="text-3xl font-bold text-blue-800 mb-6">
+        <h1 className="text-3xl font-bold text-blue-800 mb-6">
           Interview Details
           <a
-            href="https://forms.gle/N8zzXmfBf7q7L8Zp9"
+            href="http://localhost:5173/interviewForm"
             target="_blank"
-           
+
           >
-            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span  className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">https://forms.gle/N8zzXmfBf7q7L8Zp9)</span> 
+            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">http://localhost:5173/interviewForm)</span>
           </a>
         </h1>
 
@@ -322,11 +323,10 @@ const handleConfirmSelect = async () => {
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors border ${
-                  statusFilter === status
+                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors border ${statusFilter === status
                     ? "bg-yellow-500 text-white border-yellow-500"
                     : "bg-white text-yellow-700 border-yellow-400 hover:bg-yellow-100"
-                }`}
+                  }`}
               >
                 {status}
               </button>
@@ -350,7 +350,7 @@ const handleConfirmSelect = async () => {
                   <th className="px-4 py-3 text-left text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">DOI</th>
                   <th className="px-4 py-3 text-left text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">Applied for</th>
                   <th className="px-4 py-3 text-left text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">Address</th>
-                  
+
                   {/* Additional columns for Selected status */}
                   {statusFilter === "Selected" && (
                     <>
@@ -360,7 +360,7 @@ const handleConfirmSelect = async () => {
                       <th className="px-4 py-3 text-left text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">Selected for</th>
                     </>
                   )}
-                  
+
                   {/* Additional column for Rejected status */}
                   {statusFilter === "Rejected" && (
                     <>
@@ -368,7 +368,7 @@ const handleConfirmSelect = async () => {
                       <th className="px-4 py-3 text-left text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">Reason</th>
                     </>
                   )}
-                  
+
                   {statusFilter === "Requested" && (
                     <th className="px-4 py-3 pl-4 text-xs font-bold text-yellow-900 uppercase tracking-wider border-r border-yellow-500">Action</th>
                   )}
@@ -388,17 +388,17 @@ const handleConfirmSelect = async () => {
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.DOI?.split("T")[0]}</td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r max-w-[150px] truncate border-gray-200" title={employee.DESIGNATION}>{employee.DESIGNATION}</td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r max-w-[150px] truncate border-gray-200" title={employee.ADDRESS}>{employee.ADDRESS}</td>
-              
+
                       {/* Additional data for Selected status */}
                       {statusFilter === "Selected" && (
                         <>
                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.CONDUCTED_BY || "—"}</td>
                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.CTC || "—"}</td>
                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.DOJ?.split("T")[0] || "—"}</td>
-                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.ROLE || "—"}</td>
+                          <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.ROLE || "—"}</td>
                         </>
                       )}
-                      
+
                       {/* Additional data for Rejected status */}
                       {statusFilter === "Rejected" && (
                         <>
@@ -406,7 +406,7 @@ const handleConfirmSelect = async () => {
                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">{employee.REJECTION_REASON || "—"}</td>
                         </>
                       )}
-                      
+
                       {statusFilter === "Requested" && (
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 space-x-2">
                           <button

@@ -11,7 +11,7 @@ const Documents = () => {
   const Navigate = useNavigate();
 
   const getDetails = async () => {
-    const res = await axios.get("https://hrms-software.onrender.com/document");
+    const res = await axios.get("http://localhost:3000/document");
     setuser(res.data);
   };
 
@@ -26,9 +26,8 @@ const Documents = () => {
       NAME: user.NAME || "",
       DESIGNATION: user.DESIGNATION || "",
       DEPARTMENT: user.DEPARTMENT || "",
-      LOCATION: user.LOCATION || "",
     };
-    alert("Note: As this is not a paid server, documents are stored in Cloudinary and cannot be viewed directly in the frontend.");
+    // alert("Note: As this is not a paid server, documents are stored in Cloudinary and cannot be viewed directly in the frontend.");
 
 
     const [formData, setFormData] = useState(template);
@@ -43,7 +42,7 @@ const Documents = () => {
     };
 
     const getCloudinarySignature = async (folder, public_id) => {
-      const res = await axios.post("https://hrms-software.onrender.com/cloudinary-signature", {
+      const res = await axios.post("http://localhost:3000/cloudinary-signature", {
         folder,
         public_id
       });
@@ -76,7 +75,7 @@ const Documents = () => {
         console.log("Cloudinary Upload Response:", cloudRes.data);
         const uploadedUrl = cloudRes.data.secure_url;
 
-        await axios.post("https://hrms-software.onrender.com/UpdateDocStatus", {
+        await axios.post("http://localhost:3000/UpdateDocStatus", {
           EMPLOYEE_ID: formData.EMPLOYEE_ID,
           field,
           url: uploadedUrl,

@@ -19,7 +19,7 @@ const ForgetPassword=()=>{
       }
       else
       {
-          const res=await axios.post("https://hrms-software.onrender.com/ResetPass",{email,newPassword:pass})
+          const res=await axios.post("http://localhost:3000/ResetPass",{email,newPassword:pass})
           .then((res)=>{
 
             toast.success(res.data.message,{position:'top-right',duration: 5000})

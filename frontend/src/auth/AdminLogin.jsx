@@ -1,42 +1,41 @@
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAuth } from "./authProvider";
+import logo1 from "../assets/nouuu.png";
+const LoginPage = () => {
+  const Navigate = useNavigate();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
-import { useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { useAuth } from './authProvider';
-import logo1 from '../assets/nouuu.png';
-const LoginPage=()=>{
+  const { loginAction } = useAuth();
+  useEffect(() => {
+    //   alert("For a better experience, please use the application on a laptop. If you are using a mobile phone, switch to desktop mode.");
+  }, []);
 
-    
-    const Navigate=useNavigate();
-    const [email,setemail]=useState("");
-    const[password,setpassword]=useState("");
+  const actionSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      email,
+      password,
+    };
 
-    const {loginAction}=useAuth()
-useEffect(() => {
-    alert("For a better experience, please use the application on a laptop. If you are using a mobile phone, switch to desktop mode.");
-  }, []); 
-
-const actionSubmit=async(e)=>{
-    e.preventDefault()
-    e.preventDefault()
-    const data={
-        email,
-        password
-    }
     loginAction(data);
+  };
 
-       
-}
-
- return (
+  return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-xl rounded-xl relative">
         <div className="flex flex-col items-center">
-          <img src={logo1}   className="w-36 h-35   bg-white"/>
-          <h2 className="text-3xl font-bold text-yellow-600">NoQu HRMS Login</h2>
+          <img src={logo1} className="w-36 h-35   bg-white" />
+          <h2 className="text-3xl font-bold text-yellow-600">
+            NoQu HRMS Login
+          </h2>
         </div>
         <form onSubmit={actionSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-700">Email</label>
+            <label className="block text-sm font-semibold text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -45,7 +44,9 @@ const actionSubmit=async(e)=>{
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700">Password</label>
+            <label className="block text-sm font-semibold text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               required
@@ -54,14 +55,16 @@ const actionSubmit=async(e)=>{
             />
           </div>
           <div className="text-right">
-          <button
-            type="button"
-            className="text-sm text-yellow-600 hover:underline"
-            onClick={() => { Navigate("/Email"); }}
-          >
-            Forgot Password?
-          </button>
-        </div>
+            <button
+              type="button"
+              className="text-sm text-yellow-600 hover:underline"
+              onClick={() => {
+                Navigate("/Email");
+              }}
+            >
+              Forgot Password?
+            </button>
+          </div>
 
           <button
             type="submit"
@@ -71,21 +74,13 @@ const actionSubmit=async(e)=>{
           </button>
         </form>
         <p className="text-sm text-center text-gray-600">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <span className="text-yellow-600 font-semibold">Contact Admin</span>
         </p>
-        
       </div>
-      <div className="absolute top-4 right-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800 text-left shadow">
-  <p className="font-semibold">Demo Login:</p>
-  <p>Username: <code>noqu@gmail.com</code></p>
-  <p>Password: <code>noqu</code></p>  
-</div>
-
       
     </div>
-    
   );
 };
 
-export {LoginPage}
+export { LoginPage };

@@ -13,7 +13,7 @@ const UpdateDocuments=()=>{
     
 
     const getDetials = async () => {
-    const res = await axios.get("https://hrms-software.onrender.com/document")
+    const res = await axios.get("http://localhost:3000/document")
     setuser(res.data)
 
     }

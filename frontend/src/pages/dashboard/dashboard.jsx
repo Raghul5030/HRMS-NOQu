@@ -26,8 +26,8 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         // Employee data
-        const empRes = await axios.get("https://hrms-software.onrender.com/getEmployee");
-        const onboardRes = await axios.get("https://hrms-software.onrender.com/getUsers");
+        const empRes = await axios.get("http://localhost:3000/getEmployee");
+        const onboardRes = await axios.get("http://localhost:3000/getUsers");
 
         setEmployeeCount(empRes.data.length);
         setActiveEmployeeCount(empRes.data.filter(emp => emp.EMPLOYEE_ACTIVE_STATUS).length);
@@ -39,7 +39,7 @@ const Dashboard = () => {
         setRecentEmployees(sortedEmployees);
 
         // Interview data
-        const interviewRes = await axios.get("https://hrms-software.onrender.com/getform");
+        const interviewRes = await axios.get("http://localhost:3000/getform");
         const totalInterviews = interviewRes.data.length;
         
         setInterviewStats({

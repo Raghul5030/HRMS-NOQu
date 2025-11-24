@@ -803,8 +803,49 @@ const UpdateRejectReason = async (req, res) => {
 
 
 
+const addInterview = async (req, res) => {
+  const {
+    NAME,
+    GENDER,
+    DOB,
+    EMAIL,
+    PHONE_NUMBER,
+    ADDRESS,
+    EXPERIANCE,
+    INTERVIEW_MODE,
+    DOI,
+    DESIGNATION
+  } = req.body;
+
+  try {
+    const query = `
+      INSERT INTO interview_list1 
+      (NAME, GENDER, DOB, EMAIL, PHONE_NUMBER, ADDRESS, EXPERIANCE, INTERVIEW_MODE,
+       DOI, DESIGNATION)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      NAME,
+      GENDER,
+      DOB,
+      EMAIL,
+      PHONE_NUMBER,
+      ADDRESS,
+      EXPERIANCE,
+      INTERVIEW_MODE,
+      DOI,
+      DESIGNATION
+    ];
+
+    db.execute(query, values);
+
+    res.json({ message: "Interview added successfully" });
+  } catch (err) {
+    console.error("Error adding interview:", err);
+    res.status(500).json({ message: "Internal server error", error: err.message });
+  }
+};
 
 
-
-
-export { getInterviewList1,updateList,getInterviewList,getuserById,AddEmployee,DeleteInterview,GetEmployee,getDocDetial,DocStatusUpdate,GetAssets,UpdateAssets,Login,sendEmail,CheckEmail,ResetPassword,Cloudinary,UpdateAssetsStatus,EmployeeDoc,EmployeeAsset,EmployeeDocUpdate,EmployeeAssetUpdate,Addonboard,UpdateInterview_list,UpdateRejectReason };
+export { getInterviewList1,updateList,getInterviewList,getuserById,AddEmployee,DeleteInterview,GetEmployee,getDocDetial,DocStatusUpdate,GetAssets,UpdateAssets,Login,sendEmail,CheckEmail,ResetPassword,Cloudinary,UpdateAssetsStatus,EmployeeDoc,EmployeeAsset,EmployeeDocUpdate,EmployeeAssetUpdate,Addonboard,UpdateInterview_list,UpdateRejectReason,addInterview };
