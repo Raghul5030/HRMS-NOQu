@@ -49,7 +49,7 @@ const InterviewForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       // Scroll to first error
       const firstErrorField = document.querySelector('[data-error="true"]');
@@ -62,7 +62,7 @@ const InterviewForm = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:3000/addInterviewForm", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/addInterviewForm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -89,7 +89,7 @@ const InterviewForm = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex justify-center items-center py-8 px-4">
       <div className="w-full max-w-4xl bg-white p-8 md:p-12 rounded-3xl shadow-2xl border border-gray-100">
-        
+
         {/* Enhanced Header */}
         <div className="text-center mb-10">
           <div className="w-20 h-20 bg-gradient-to-r from-[#F1B501] to-[#FFD166] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -106,7 +106,7 @@ const InterviewForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          
+
           {/* Personal Information Section */}
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
             <div className="flex items-center gap-3 mb-6">

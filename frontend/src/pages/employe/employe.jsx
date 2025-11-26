@@ -14,7 +14,7 @@ const Employees = () => {
   const [toDate, setToDate] = useState("");
 
   const getDetials = async () => {
-    const res = await axios.get("http://localhost:3000/getEmployee");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/getEmployee`);
     console.log(res);
     setuser(res.data);
   };
@@ -76,11 +76,11 @@ const Employees = () => {
     };
 
     const submitHandaler = async () => {
-      await axios.post("http://localhost:3000/updateEmployee", formData);
+      await axios.post(`${import.meta.env.VITE_API_URL}/updateEmployee`, formData);
       await axios
-        .post("http://localhost:3000/empassupdate", formData);
-        await axios
-        .post("http://localhost:3000/UpdateEmpDoc", formData)
+        .post(`${import.meta.env.VITE_API_URL}/empassupdate`, formData);
+      await axios
+        .post(`${import.meta.env.VITE_API_URL}/UpdateEmpDoc`, formData)
         .then((res) => {
           toast.success(res.data.message, {
             position: "top-right",
@@ -383,11 +383,10 @@ const Employees = () => {
                   });
                 }}
                 type="button"
-                className={`px-4 py-2 text-white rounded ${
-                  formData.EMPLOYEE_ACTIVE_STATUS
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-green-600 hover:bg-green-700"
-                }`}
+                className={`px-4 py-2 text-white rounded ${formData.EMPLOYEE_ACTIVE_STATUS
+                  ? "bg-red-600 hover:bg-red-700"
+                  : "bg-green-600 hover:bg-green-700"
+                  }`}
               >
                 {formData.EMPLOYEE_ACTIVE_STATUS ? "InActivate" : "Activate"}
               </button>
@@ -419,9 +418,9 @@ const Employees = () => {
       return search === ""
         ? x
         : x[filter]
-            ?.toLowerCase()
-            .replace(/\s/g, "")
-            .includes(search.toLowerCase().replace(/\s/g, ""));
+          ?.toLowerCase()
+          .replace(/\s/g, "")
+          .includes(search.toLowerCase().replace(/\s/g, ""));
     } else {
       if (!fromDate || !toDate) return x;
       const targetDate = new Date(x[filter]);
@@ -495,11 +494,10 @@ const Employees = () => {
           <button
             onClick={() => setCurrentPage(page)}
             disabled={page === "..."}
-            className={`px-2.5 py-1 border text-sm ${
-              currentPage === page
-                ? "bg-yellow-500 text-white border-yellow-500 rounded "
-                : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
-            } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
+            className={`px-2.5 py-1 border text-sm ${currentPage === page
+              ? "bg-yellow-500 text-white border-yellow-500 rounded "
+              : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
+              } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
           >
             {page}
           </button>
@@ -620,11 +618,11 @@ const Employees = () => {
                         return search === ""
                           ? x
                           : x[filter]
-                              .toLowerCase()
-                              .replace(/\s/g, "")
-                              .includes(
-                                search.toLowerCase().replace(/\s/g, "")
-                              );
+                            .toLowerCase()
+                            .replace(/\s/g, "")
+                            .includes(
+                              search.toLowerCase().replace(/\s/g, "")
+                            );
                       } else {
                         if (!fromDate || !toDate) return x; // If date not selected, don't filter
                         const targetDate = new Date(x[filter]);
@@ -661,11 +659,10 @@ const Employees = () => {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">
                           <span
-                            className={`px-2 py-1 text-xs rounded-full ${
-                              employee.DOCUMENTS_STATUS
-                                ? "bg-green-100 text-green-800"
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}
+                            className={`px-2 py-1 text-xs rounded-full ${employee.DOCUMENTS_STATUS
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                              }`}
                           >
                             {employee.DOCUMENTS_STATUS
                               ? "Completed"
@@ -674,22 +671,20 @@ const Employees = () => {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">
                           <span
-                            className={`px-2 py-1 text-xs rounded-full ${
-                              employee.ASSET_STATUS
-                                ? "bg-green-100 text-green-800"
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}
+                            className={`px-2 py-1 text-xs rounded-full ${employee.ASSET_STATUS
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                              }`}
                           >
                             {employee.ASSET_STATUS ? "Completed" : "Pending"}
                           </span>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">
                           <span
-                            className={`px-2 py-1 text-xs rounded-full ${
-                              employee.EMPLOYEE_ACTIVE_STATUS
-                                ? "bg-green-100 text-green-800 "
-                                : "bg-red-100 text-red-800"
-                            }`}
+                            className={`px-2 py-1 text-xs rounded-full ${employee.EMPLOYEE_ACTIVE_STATUS
+                              ? "bg-green-100 text-green-800 "
+                              : "bg-red-100 text-red-800"
+                              }`}
                           >
                             {employee.EMPLOYEE_ACTIVE_STATUS
                               ? "🟢Active"

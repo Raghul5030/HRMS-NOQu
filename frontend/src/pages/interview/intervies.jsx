@@ -28,7 +28,7 @@ const Interview = () => {
 
   const getDetials = async () => {
     // alert("Note: Updates may take time to appear due to server limits after submiting Interview form.");
-    const res = await axios.get("http://localhost:3000/getform");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/getform`);
     setuser(res.data);
   };
 
@@ -51,7 +51,7 @@ const Interview = () => {
   const handleConfirmSelect = async () => {
     try {
       const { conductedBy, ctc, role, doj } = selectDetails;
-      await axios.post("http://localhost:3000/UpdateInterview", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/UpdateInterview`, {
         ...selectedUser,
         STATUS: "Selected",
         CONDUCTED_BY: conductedBy,
@@ -62,7 +62,7 @@ const Interview = () => {
       getDetials();
       toast.success("Candidate Selected", { position: 'top-right' });
 
-      await axios.post("http://localhost:3000/addinter", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/addinter`, {
         NAME: selectedUser.NAME,
         GENDER: selectedUser.GENDER,
         DATE_OF_BIRTH: selectedUser.DOB?.split("T")[0],
@@ -91,7 +91,7 @@ const Interview = () => {
 
   const handleConfirmReject = async () => {
     try {
-      await axios.post("http://localhost:3000/UpdateInterviewReject", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/UpdateInterviewReject`, {
         ...rejectingUser,
         STATUS: "Rejected",
         REJECTION_REASON: rejectionReason,
@@ -267,11 +267,11 @@ const Interview = () => {
         <h1 className="text-3xl font-bold text-blue-800 mb-6">
           Interview Details
           <a
-            href="http://localhost:5173/interviewForm"
+            href="/interviewForm"
             target="_blank"
 
           >
-            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">http://localhost:5173/interviewForm)</span>
+            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">/interviewForm)</span>
           </a>
         </h1>
 
@@ -324,8 +324,8 @@ const Interview = () => {
                 key={status}
                 onClick={() => setStatusFilter(status)}
                 className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors border ${statusFilter === status
-                    ? "bg-yellow-500 text-white border-yellow-500"
-                    : "bg-white text-yellow-700 border-yellow-400 hover:bg-yellow-100"
+                  ? "bg-yellow-500 text-white border-yellow-500"
+                  : "bg-white text-yellow-700 border-yellow-400 hover:bg-yellow-100"
                   }`}
               >
                 {status}

@@ -12,7 +12,7 @@ const Asset = () => {
   const [filter, setFilter] = useState("NAME");
 
   const getDetials = async () => {
-    const res = await axios.get("http://localhost:3000/getAssets");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/getAssets`);
     setuser(res.data);
   };
   useEffect(() => {
@@ -64,7 +64,7 @@ const Asset = () => {
 
     const submitHandaler = async (req, res) => {
       await axios
-        .post("http://localhost:3000/UpdateAsset", formData)
+        .post(`${import.meta.env.VITE_API_URL}/UpdateAsset`, formData)
 
         .then((res) => {
           toast.success(res.data.message, {
@@ -89,7 +89,7 @@ const Asset = () => {
       }
 
       try {
-        const res = await axios.post("http://localhost:3000/udassets", {
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/udassets`, {
           EMPLOYEE_ID,
         });
 
@@ -208,9 +208,8 @@ const Asset = () => {
                 <div className="absolute left-[3px] top-[3px] w-3.5 h-3.5 bg-white rounded-full peer-checked:translate-x-5 transform transition-all duration-300"></div>
               </label>
               <span
-                className={`text-sm font-semibold ${
-                  formData.LAPTOP_STATUS ? "text-blue-600" : "text-gray-400"
-                }`}
+                className={`text-sm font-semibold ${formData.LAPTOP_STATUS ? "text-blue-600" : "text-gray-400"
+                  }`}
               >
                 {formData.LAPTOP_STATUS ? "Applicable" : "Not Applicable"}
               </span>
@@ -301,9 +300,8 @@ const Asset = () => {
                 <div className="absolute left-[3px] top-[3px] w-3.5 h-3.5 bg-white rounded-full peer-checked:translate-x-5 transform transition-all duration-300"></div>
               </label>
               <span
-                className={`text-sm font-semibold ${
-                  formData.MOBILE_STATUS ? "text-blue-600" : "text-gray-400"
-                }`}
+                className={`text-sm font-semibold ${formData.MOBILE_STATUS ? "text-blue-600" : "text-gray-400"
+                  }`}
               >
                 {formData.MOBILE_STATUS ? "Applicable" : "Not Applicable"}
               </span>
@@ -389,9 +387,8 @@ const Asset = () => {
                 <div className="absolute left-[3px] top-[3px] w-3.5 h-3.5 bg-white rounded-full peer-checked:translate-x-5 transform transition-all duration-300"></div>
               </label>
               <span
-                className={`text-sm font-semibold ${
-                  formData.HEADSET_STATUS ? "text-blue-600" : "text-gray-400"
-                }`}
+                className={`text-sm font-semibold ${formData.HEADSET_STATUS ? "text-blue-600" : "text-gray-400"
+                  }`}
               >
                 {formData.HEADSET_STATUS ? "Applicable" : "Not Applicable"}
               </span>
@@ -453,9 +450,9 @@ const Asset = () => {
     return search === ""
       ? x
       : x[filter]
-          .toLowerCase()
-          .replace(/\s/g, "")
-          .includes(search.toLowerCase().replace(/\s/g, ""));
+        .toLowerCase()
+        .replace(/\s/g, "")
+        .includes(search.toLowerCase().replace(/\s/g, ""));
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -521,11 +518,10 @@ const Asset = () => {
           <button
             onClick={() => setCurrentPage(page)}
             disabled={page === "..."}
-            className={`px-2.5 py-1 border text-sm ${
-              currentPage === page
-                ? "bg-yellow-500 text-white border-yellow-500 rounded "
-                : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
-            } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
+            className={`px-2.5 py-1 border text-sm ${currentPage === page
+              ? "bg-yellow-500 text-white border-yellow-500 rounded "
+              : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
+              } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
           >
             {page}
           </button>

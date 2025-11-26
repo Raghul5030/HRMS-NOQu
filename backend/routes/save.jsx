@@ -45,7 +45,7 @@ const Popup1 = ({ user }) => {
       }
 
       try {
-        const Eid = await axios.get(`http://localhost:3000/v1/getuser/${formData.EMPLOYEE_ID}`)
+        const Eid = await axios.get(`http://hrms-noqu.onrender.com/v1/getuser/${formData.EMPLOYEE_ID}`)
         if (Eid.data.message !== "found") {
           setErrorMessage(`✅ ${formData.EMPLOYEE_ID} does not exist. You can proceed.`)
           setFlag(true)
@@ -61,7 +61,7 @@ const Popup1 = ({ user }) => {
 
     const deleteUser = async () => {
       try {
-        await axios.delete(`http://localhost:3000/v1/deleteInterview/${ID}`)
+        await axios.delete(`http://hrms-noqu.onrender.com/v1/deleteInterview/${ID}`)
         getDetails()
       } catch (error) {
         toast.error("Failed to delete user")
@@ -85,7 +85,7 @@ const Popup1 = ({ user }) => {
       }
 
       try {
-        const res = await axios.post("http://localhost:3000/v1/createEmployee", formData)
+        const res = await axios.post("http://hrms-noqu.onrender.com/v1/createEmployee", formData)
         toast.success(res.data.message, { position: 'top-right', duration: 5000 })
         await deleteUser()
         setOpenPopup1(false)

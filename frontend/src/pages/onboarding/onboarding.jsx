@@ -19,7 +19,7 @@ const Onboarding = () => {
 
   const getDetials = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/getUsers")
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/getUsers`)
       setuser(res.data)
     } catch (err) {
       console.error(err)
@@ -67,7 +67,7 @@ const Onboarding = () => {
         setFlag(false);
       } else {
         try {
-          const Eid = await axios.get(`http://localhost:3000/getuser/${formData.EMPLOYEE_ID}`);
+          const Eid = await axios.get(`${import.meta.env.VITE_API_URL}/getuser/${formData.EMPLOYEE_ID}`);
           if (Eid.data.message !== "found") {
             setErrorMessage(`✅ ${formData.EMPLOYEE_ID} does not exist. You can proceed.`);
             setFlag(true);
@@ -119,7 +119,7 @@ const Onboarding = () => {
 
     const deleteUser = async () => {
       try {
-        await axios.delete(`http://localhost:3000/deleteInterview/${ID}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/deleteInterview/${ID}`);
         getDetials();
       } catch (err) {
         console.error(err)
@@ -135,9 +135,9 @@ const Onboarding = () => {
       try {
         const updatedForm = { ...formData, EMPLOYEE_ACTIVE_STATUS: 1 };
         // optional: setFormData(updatedForm);
-        const res = await axios.post("http://localhost:3000/createEmployee", updatedForm)
-        const res1= await axios.post("http://localhost:3000/empass", updatedForm)
-        await axios.post("http://localhost:3000/empdoc", updatedForm)
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/createEmployee`, updatedForm)
+        const res1 = await axios.post(`${import.meta.env.VITE_API_URL}/empass`, updatedForm)
+        await axios.post(`${import.meta.env.VITE_API_URL}/empdoc`, updatedForm)
         toast.success(res.data.message || "Onboarded", { position: 'top-right', duration: 5000 })
         await deleteUser();
         await getDetials();
@@ -336,7 +336,7 @@ const Onboarding = () => {
             key={String(page) + index}
             onClick={() => { if (page !== "...") setCurrentPage(Number(page)) }}
             disabled={page === "..."}
-            className={`px-2.5 py-1 border text-sm ${ currentPage === page ? 'bg-yellow-500 text-white border-yellow-500 rounded ' : 'text-gray-700 hover:bg-yellow-100 rounded border-gray-600' } ${page === "..." ? 'cursor-default text-gray-400' : ''}`}
+            className={`px-2.5 py-1 border text-sm ${currentPage === page ? 'bg-yellow-500 text-white border-yellow-500 rounded ' : 'text-gray-700 hover:bg-yellow-100 rounded border-gray-600'} ${page === "..." ? 'cursor-default text-gray-400' : ''}`}
           >
             {page}
           </button>

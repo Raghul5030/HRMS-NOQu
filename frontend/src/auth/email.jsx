@@ -5,38 +5,38 @@ import toast from "react-hot-toast"
 
 const EnterEmailPage = () => {
 
-  const {email,setEmail,setOTP,otp}=useAuth();
-  const navigate=useNavigate();
+  const { email, setEmail, setOTP, otp } = useAuth();
+  const navigate = useNavigate();
 
-  const checkEmail=async()=>{
-    const res = await axios.post("http://localhost:3000/CheckMail", {recipitent_email: email})
-    .then((res)=>{
-            sendOTP();
-            setEmail(email);
-            localStorage.setItem("resetEmail",email);
-            navigate("/verification");
-        })
-        .catch((error)=>{
-            toast.error(error.response?.data?.message||"some thing went wrong",{position:'top-right',duration: 4000})
-        })
-  
+  const checkEmail = async () => {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/CheckMail`, { recipitent_email: email })
+      .then((res) => {
+        sendOTP();
+        setEmail(email);
+        localStorage.setItem("resetEmail", email);
+        navigate("/verification");
+      })
+      .catch((error) => {
+        toast.error(error.response?.data?.message || "some thing went wrong", { position: 'top-right', duration: 4000 })
+      })
+
   }
 
-  const sendOTP=async()=>{
-     if (email) {
-    const OTP = Math.floor(Math.random() * 9000 + 1000); // 4-digit OTP
-    setOTP(OTP);
-    setEmail(email);
+  const sendOTP = async () => {
+    if (email) {
+      const OTP = Math.floor(Math.random() * 9000 + 1000); // 4-digit OTP
+      setOTP(OTP);
+      setEmail(email);
 
-    try {
-      const res = await axios.post("http://localhost:3000/sendOTP", {OTP,recipitent_email: email});
-      toast.success(res.data.message, { position: "top-right", duration: 5000 });
-    } 
-    
-    catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong",{ position: "top-right", duration: 5000 });
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/sendOTP`, { OTP, recipitent_email: email });
+        toast.success(res.data.message, { position: "top-right", duration: 5000 });
+      }
+
+      catch (error) {
+        toast.error(error.response?.data?.message || "Something went wrong", { position: "top-right", duration: 5000 });
+      }
     }
-  }
 
   }
 
@@ -56,13 +56,13 @@ const EnterEmailPage = () => {
             </label>
             <input
               type="email"
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 "
               placeholder="Enter your email"
             />
           </div>
           <button
-            onClick={(e)=>{checkEmail();e.preventDefault()}}
+            onClick={(e) => { checkEmail(); e.preventDefault() }}
             className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
             Send OTP
@@ -73,4 +73,4 @@ const EnterEmailPage = () => {
   );
 };
 
-export {EnterEmailPage}
+export { EnterEmailPage }

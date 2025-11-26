@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [activeEmployeeCount, setActiveEmployeeCount] = useState(0);
   const [onboardingCount, setOnboardingCount] = useState(0);
   const [recentEmployees, setRecentEmployees] = useState([]);
-  
+
   // Interview statistics
   const [interviewStats, setInterviewStats] = useState({
     total: 0,
@@ -26,8 +26,8 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         // Employee data
-        const empRes = await axios.get("http://localhost:3000/getEmployee");
-        const onboardRes = await axios.get("http://localhost:3000/getUsers");
+        const empRes = await axios.get(`${import.meta.env.VITE_API_URL}/getEmployee`);
+        const onboardRes = await axios.get(`${import.meta.env.VITE_API_URL}/getUsers`);
 
         setEmployeeCount(empRes.data.length);
         setActiveEmployeeCount(empRes.data.filter(emp => emp.EMPLOYEE_ACTIVE_STATUS).length);
@@ -39,9 +39,9 @@ const Dashboard = () => {
         setRecentEmployees(sortedEmployees);
 
         // Interview data
-        const interviewRes = await axios.get("http://localhost:3000/getform");
+        const interviewRes = await axios.get(`${import.meta.env.VITE_API_URL}/getform`);
         const totalInterviews = interviewRes.data.length;
-        
+
         setInterviewStats({
           total: totalInterviews,
           requested: interviewRes.data.filter(i => i.STATUS === "Requested").length,
@@ -50,19 +50,19 @@ const Dashboard = () => {
         });
 
 
-        
-        const upcoming = interviewRes.data
-        .filter(i => i.STATUS === "Requested")
-        .slice(0, 5);
 
-        
+        const upcoming = interviewRes.data
+          .filter(i => i.STATUS === "Requested")
+          .slice(0, 5);
+
+
         setUpcomingInterviews(upcoming);
 
         // Recently processed interviews
         const processed = [...interviewRes.data]
           .filter(i => i.STATUS !== "Requested")
           .slice(0, 5);
-        
+
         setRecentlyProcessed(processed);
 
       } catch (error) {
@@ -85,7 +85,7 @@ const Dashboard = () => {
   const formattedTime = currentTime.toLocaleTimeString();
 
   const getStatusColor = (status) => {
-    switch(status) {
+    switch (status) {
       case "Selected": return "bg-green-100 text-green-700";
       case "Rejected": return "bg-red-100 text-red-700";
       case "Requested": return "bg-yellow-100 text-yellow-700";

@@ -11,7 +11,7 @@ const Documents = () => {
   const Navigate = useNavigate();
 
   const getDetails = async () => {
-    const res = await axios.get("http://localhost:3000/document");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/document`);
     setuser(res.data);
   };
 
@@ -42,7 +42,7 @@ const Documents = () => {
     };
 
     const getCloudinarySignature = async (folder, public_id) => {
-      const res = await axios.post("http://localhost:3000/cloudinary-signature", {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/cloudinary-signature`, {
         folder,
         public_id
       });
@@ -75,7 +75,7 @@ const Documents = () => {
         console.log("Cloudinary Upload Response:", cloudRes.data);
         const uploadedUrl = cloudRes.data.secure_url;
 
-        await axios.post("http://localhost:3000/UpdateDocStatus", {
+        await axios.post(`${import.meta.env.VITE_API_URL}/UpdateDocStatus`, {
           EMPLOYEE_ID: formData.EMPLOYEE_ID,
           field,
           url: uploadedUrl,
@@ -100,7 +100,7 @@ const Documents = () => {
       "PARENTS_AADHAR"
     ];
 
-    
+
 
     return (
       <div className="fixed inset-0 bg-black/10 backdrop-blur-xs flex justify-center items-center">
@@ -175,78 +175,77 @@ const Documents = () => {
 
 
   const [search, setSearch] = useState("");
-const [filter, setFilter] = useState("NAME"); // or any valid default filter key like "EMPLOYEE_ID"
+  const [filter, setFilter] = useState("NAME"); // or any valid default filter key like "EMPLOYEE_ID"
 
 
-  const filteredUsers=user.filter((x)=>{
-    return search==="" ? x:(x[filter].toLowerCase().replace(/\s/g, "")).includes(search.toLowerCase().replace(/\s/g, ""))  
-}
-)
-const [currentPage,setCurrentPage]=useState(1);
-  const [itemPerPage,setItemPerPage]=useState(7);
+  const filteredUsers = user.filter((x) => {
+    return search === "" ? x : (x[filter].toLowerCase().replace(/\s/g, "")).includes(search.toLowerCase().replace(/\s/g, ""))
+  }
+  )
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(7);
 
-  const lastItemIndex=currentPage*itemPerPage;
-  const firstItemIndex=lastItemIndex-itemPerPage;
-  const thisPageItems=filteredUsers.slice(firstItemIndex,lastItemIndex);
+  const lastItemIndex = currentPage * itemPerPage;
+  const firstItemIndex = lastItemIndex - itemPerPage;
+  const thisPageItems = filteredUsers.slice(firstItemIndex, lastItemIndex);
 
-  const pages=[]
-  for(let i = 1; i <= Math.ceil(filteredUsers.length / itemPerPage); i++) {
-  pages.push(i);
-}
-const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
-  const getPageNumbers = () => {
-    const pageNumbers = [];
+  const pages = []
+  for (let i = 1; i <= Math.ceil(filteredUsers.length / itemPerPage); i++) {
+    pages.push(i);
+  }
+  const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
+    const getPageNumbers = () => {
+      const pageNumbers = [];
 
-    if (totalPages <= 7) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      if (currentPage <= 4) {
-        pageNumbers.push(1, 2, 3, 4, 5, "...", totalPages);
-      } else if (currentPage > totalPages - 4) {
-        pageNumbers.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
       } else {
-        pageNumbers.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+        if (currentPage <= 4) {
+          pageNumbers.push(1, 2, 3, 4, 5, "...", totalPages);
+        } else if (currentPage > totalPages - 4) {
+          pageNumbers.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+          pageNumbers.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+        }
       }
-    }
 
-    return pageNumbers;
-  };
+      return pageNumbers;
+    };
 
-  return (
-    <div className="flex justify-center mt-6 space-x-2">
-      {/* Prev Button */}
-      <button
-        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-        className="px-2 py-1 border text-sm hover:bg-gray-100 rounded border-gray-500"
-      >
-        ᐊ
-      </button>
-
-      {/* Page Numbers */}
-      {getPageNumbers().map((page, index) => (
+    return (
+      <div className="flex justify-center mt-6 space-x-2">
+        {/* Prev Button */}
         <button
-          onClick={() =>setCurrentPage(page)}
-          disabled={page === "..."}
-          className={`px-2.5 py-1 border text-sm ${
-            currentPage === page ? 'bg-yellow-500 text-white border-yellow-500 rounded ' : 'text-gray-700 hover:bg-yellow-100 rounded border-gray-600'
-          } ${page === "..." ? 'cursor-default text-gray-400' : ''}`}
+          onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+          className="px-2 py-1 border text-sm hover:bg-gray-100 rounded border-gray-500"
         >
-          {page}
+          ᐊ
         </button>
-      ))}
 
-      {/* Next Button */}
-      <button
-        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-        className="px-2 py-1 border border-gray-600 text-sm hover:bg-gray-100 rounded"
-      >
-        ᐅ
-      </button>
-    </div>
-  );
-};
+        {/* Page Numbers */}
+        {getPageNumbers().map((page, index) => (
+          <button
+            onClick={() => setCurrentPage(page)}
+            disabled={page === "..."}
+            className={`px-2.5 py-1 border text-sm ${currentPage === page ? 'bg-yellow-500 text-white border-yellow-500 rounded ' : 'text-gray-700 hover:bg-yellow-100 rounded border-gray-600'
+              } ${page === "..." ? 'cursor-default text-gray-400' : ''}`}
+          >
+            {page}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+          className="px-2 py-1 border border-gray-600 text-sm hover:bg-gray-100 rounded"
+        >
+          ᐅ
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="flex h-screen">
@@ -254,24 +253,24 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
         <h1 className="text-3xl font-bold text-blue-800 mb-6">Documents Details</h1>
 
         <div className="flex flex-row gap-6 mb-6 w-1/2">
-        <input
+          <input
             type="text"
             onChange={(e) => setSearch(e.target.value)}
             placeholder={"Search by " + filter.toLowerCase()}
             className="w-full px-3 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white text-gray-700 placeholder-gray-400"
           />
-        <select
-          onChange={(e) => setFilter(e.target.value)}
-          className="ml-auto w-56 px-3 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white text-gray-700"
-        >
-          <option value="" hidden>Filter by</option>
-          <option value="NAME">Name</option>
-          <option value="EMPLOYEE_ID">Employee ID</option>
-          <option value="PERFORMANCE_KEY">Performance Key</option>
-          <option value="DESIGNATION">Designation</option>
-          <option value="DEPARTMENT">Department</option>
-        </select>
-      </div>
+          <select
+            onChange={(e) => setFilter(e.target.value)}
+            className="ml-auto w-56 px-3 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white text-gray-700"
+          >
+            <option value="" hidden>Filter by</option>
+            <option value="NAME">Name</option>
+            <option value="EMPLOYEE_ID">Employee ID</option>
+            <option value="PERFORMANCE_KEY">Performance Key</option>
+            <option value="DESIGNATION">Designation</option>
+            <option value="DEPARTMENT">Department</option>
+          </select>
+        </div>
 
         <div className="bg-white rounded-lg border-gray-50 overflow-hidden">
           <div className="overflow-x-auto">
@@ -289,38 +288,38 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
                 {Array.isArray(user) && user.length > 0 ? (
                   thisPageItems.map((x, index) => (
                     <tr key={index} className="hover:bg-blue-50 transition-colors">
-                  {[
-                    "PERFORMANCE_KEY", "EMPLOYEE_ID", "NAME", "DESIGNATION", "DEPARTMENT",
-                    "TENTH", "TWELFTH", "DEGREE", "AADHAR", "PAN", "RELIEVING_LETTER",
-                    "PAY_SLIP_3_MONTHS", "PARENTS_AADHAR"
-                  ].map((field, idx) => (
-                    <td key={idx} className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">
                       {[
-                        "TENTH", "TWELFTH", "DEGREE", "AADHAR", "PAN",
-                        "RELIEVING_LETTER", "PAY_SLIP_3_MONTHS", "PARENTS_AADHAR"
-                      ].includes(field) ? (
-                        <span className={`px-2 py-1 text-xs rounded-full font-semibold 
+                        "PERFORMANCE_KEY", "EMPLOYEE_ID", "NAME", "DESIGNATION", "DEPARTMENT",
+                        "TENTH", "TWELFTH", "DEGREE", "AADHAR", "PAN", "RELIEVING_LETTER",
+                        "PAY_SLIP_3_MONTHS", "PARENTS_AADHAR"
+                      ].map((field, idx) => (
+                        <td key={idx} className="px-4 py-3 whitespace-nowrap text-sm text-gray-800 border-r border-gray-200">
+                          {[
+                            "TENTH", "TWELFTH", "DEGREE", "AADHAR", "PAN",
+                            "RELIEVING_LETTER", "PAY_SLIP_3_MONTHS", "PARENTS_AADHAR"
+                          ].includes(field) ? (
+                            <span className={`px-2 py-1 text-xs rounded-full font-semibold 
                           ${x[field] && x[field] !== "0" ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-800'}`}>
-                          {x[field] && x[field] !== "0" ? "Submited" : "Pending"}
-                        </span>
-                      ) : (
-                        x[field] || '-'
-                      )}
-                    </td>
-                  ))}
+                              {x[field] && x[field] !== "0" ? "Submited" : "Pending"}
+                            </span>
+                          ) : (
+                            x[field] || '-'
+                          )}
+                        </td>
+                      ))}
 
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800">
-                    <button
-                      className="text-blue-600 hover:text-blue-800 font-medium text-sm px-3 py-1 rounded-md hover:bg-blue-50 transition-colors cursor-pointer"
-                      onClick={() => {
-                        setOpenPopup1(true);
-                        setSelectedUser(x);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </tr>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-800">
+                        <button
+                          className="text-blue-600 hover:text-blue-800 font-medium text-sm px-3 py-1 rounded-md hover:bg-blue-50 transition-colors cursor-pointer"
+                          onClick={() => {
+                            setOpenPopup1(true);
+                            setSelectedUser(x);
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </tr>
 
                   ))
                 ) : (
