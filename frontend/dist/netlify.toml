@@ -1,3 +1,10 @@
+[build]
+  # Define the actual build command to run
+  command = "cd frontend && npm install && npm run build"
+  
+  # The output folder to serve files from (relative to the repository root)
+  publish = "frontend/dist"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
