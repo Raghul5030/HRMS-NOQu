@@ -1,11 +1,12 @@
 [build]
-  # Define the actual build command to run
+  # 1. Runs the commands to build the frontend project
   command = "cd frontend && npm install && npm run build"
   
-  # The output folder to serve files from (relative to the repository root)
+  # 2. Tells Netlify where the final files are located (from the root of the repo)
   publish = "frontend/dist"
 
 [[redirects]]
+  # 3. The rule that fixes the "Page Not Found" error for React routes
   from = "/*"
   to = "/index.html"
   status = 200
