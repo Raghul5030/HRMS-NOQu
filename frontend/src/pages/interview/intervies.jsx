@@ -271,7 +271,7 @@ const Interview = () => {
             target="_blank"
 
           >
-            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">https://officenoqu.com/interviewForm)</span>
+            <span className='text-blue-400 text-sm pl-5'>(Interview Form:</span><span className="text-sm text-blue-500 pl-1 underline hover:text-blue-700">officenoqu.com/interviewForm)</span>
           </a>
         </h1>
 
