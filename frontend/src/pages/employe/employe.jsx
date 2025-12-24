@@ -76,26 +76,52 @@ const Employees = () => {
     };
 
     const submitHandaler = async () => {
-      await axios.post(`${import.meta.env.VITE_API_URL}/updateEmployee`, formData);
-      await axios
-        .post(`${import.meta.env.VITE_API_URL}/empassupdate`, formData);
-      await axios
-        .post(`${import.meta.env.VITE_API_URL}/UpdateEmpDoc`, formData)
-        .then((res) => {
-          toast.success(res.data.message, {
-            position: "top-right",
-            duration: 5000,
-          });
-          getDetials();
-          setOpenPopup1(false);
-        })
-        .catch((error) => {
-          toast.error(
-            error.response?.data?.message || "some thing went wrong",
-            { position: "top-right", duration: 5000 }
-          );
-        });
-    };
+  try {
+    // 1️⃣ Main employee update
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/updateEmployee`,
+      formData
+    );
+
+    // 2️⃣ Optional APIs (do not block UI if they fail)
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/empassupdate`,
+        formData
+      );
+    } catch (err) {
+      console.warn("Asset update failed, skipping");
+    }
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/UpdateEmpDoc`,
+        formData
+      );
+    } catch (err) {
+      console.warn("Document update failed, skipping");
+    }
+
+    // 3️⃣ Success message
+    toast.success("Employee updated successfully", {
+      position: "top-right",
+      duration: 5000,
+    });
+
+    
+    getDetials();
+
+    
+    setOpenPopup1(false);
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong",
+      { position: "top-right", duration: 5000 }
+    );
+  }
+};
+
 
     return (
       <div className="fixed inset-0 bg-black/10 backdrop-blur-xs flex justify-center items-center z-50">

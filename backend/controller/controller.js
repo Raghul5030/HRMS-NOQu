@@ -123,9 +123,9 @@ const getuserById = (req, res) => {
                 return res.json({ message: "User not found in the DB" });
             }
 
-            if(rows.length!=0)
+            if(rows.length!==0)
             {
-                res.send({message:"found"})
+                res.json(rows[0]);
             }
         });
     } catch (error) {
