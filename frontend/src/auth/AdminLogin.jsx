@@ -6,6 +6,8 @@ const LoginPage = () => {
   const Navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const { loginAction } = useAuth();
   useEffect(() => {
@@ -13,14 +15,18 @@ const LoginPage = () => {
   }, []);
 
   const actionSubmit = async (e) => {
-    e.preventDefault();
-    const data = {
-      email,
-      password,
-    };
+  e.preventDefault();
 
-    loginAction(data);
-  };
+  if (loading) return;     // 🔒 block multiple clicks
+
+  setLoading(true);
+  try {
+    await loginAction({ email, password });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -67,11 +73,16 @@ const LoginPage = () => {
           </div>
 
           <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 font-semibold"
-          >
-            Login
-          </button>
+  type="submit"
+  disabled={loading}
+  className={`w-full px-4 py-2 text-white rounded-lg font-semibold
+    ${loading
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-yellow-500 hover:bg-yellow-600"}`}
+>
+  {loading ? "Logging in..." : "Login"}
+</button>
+
         </form>
         <p className="text-sm text-center text-gray-600">
           Don't have an account?{" "}
