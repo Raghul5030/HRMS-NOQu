@@ -403,14 +403,24 @@ const UpdateAssets = (req, res) => {
 
 
 const Login = (req, res) => {
+  console.log("🔥 NEW LOGIN FUNCTION RUNNING 🔥");
+
     const { email, password } = req.body;
-   
 
     if (!email || !password) {
         return res.status(400).json({ message: "Email and Password are required." });
     }
 
-    const query = 'SELECT * FROM login WHERE EMAIL = ?';
+    const query = `
+      SELECT 
+        l.EMAIL,
+        l.PASSWORD,
+        l.employee_id,
+        r.role_name
+      FROM login l
+      JOIN roles r ON l.role_id = r.role_id
+      WHERE l.EMAIL = ?
+    `;
 
     db.query(query, [email], (error, results) => {
         if (error) {
@@ -422,19 +432,29 @@ const Login = (req, res) => {
         }
 
         const user = results[0];
-       
-        // Plain-text password comparison
-        if (user.PASSWORD != password) {
+        console.log("LOGIN QUERY RESULT:", user);
+
+
+        if (user.PASSWORD !== password) {
             return res.status(401).json({ message: "Incorrect password!" });
         }
 
-        // Create JWT token
-        const token = jwt.sign({ id: user.EMAIL }, "demo", { expiresIn: "2d" });
+        const token = jwt.sign(
+            {
+                email: user.EMAIL,
+                role: user.role_name,
+                employee_id: user.employee_id
+            },
+            "demo",
+            { expiresIn: "2d" }
+        );
 
         res.status(200).json({
             message: "Login successful",
             token,
             email: user.EMAIL,
+            role: user.role_name,
+            employee_id: user.employee_id
         });
     });
 };
