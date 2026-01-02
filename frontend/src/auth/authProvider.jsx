@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
     const Navigate = useNavigate()
 
     const loginAction = async (data) => {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/Login`, data)
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, data)
             .then((res) => {
                 localStorage.setItem("authToken", res.data.token)
                 toast.success(res.data.message, { position: 'top-right', duration: 5000 });
