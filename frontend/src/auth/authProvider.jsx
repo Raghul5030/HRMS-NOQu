@@ -1,39 +1,74 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
 
-    const Navigate = useNavigate()
+  // role state (persisted)
+  const [role, setRole] = useState(
+    localStorage.getItem("role") || null
+  );
 
-    const loginAction = async (data) => {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, data)
-            .then((res) => {
-                localStorage.setItem("authToken", res.data.token)
-                toast.success(res.data.message, { position: 'top-right', duration: 5000 });
-                Navigate("/dashboard")
-            })
-            .catch((error) => {
+  const [email, setEmail] = useState();
+  const [otp, setOTP] = useState();
 
-                toast.error(error.response?.data?.message || "Login failed. Please try again", { position: 'top-right', duration: 5000 });
-            })
+  const loginAction = async (data) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        data
+      );
+
+      // normalize role
+      const normalizedRole = res.data.role.toLowerCase();
+
+      // store auth data
+      localStorage.setItem("authToken", res.data.token);
+      localStorage.setItem("role", normalizedRole);
+
+      // update state
+      setRole(normalizedRole);
+
+      toast.success(res.data.message, {
+        position: "top-right",
+        duration: 5000,
+      });
+
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "Login failed. Please try again",
+        {
+          position: "top-right",
+          duration: 5000,
+        }
+      );
     }
+  };
 
-    const [email, setEmail] = useState();
-    const [otp, setOTP] = useState();
-
-
-    return <AuthContext.Provider value={{ loginAction, email, setEmail, setOTP, otp }}>{children}</AuthContext.Provider>
-
-}
-
+  return (
+    <AuthContext.Provider
+      value={{
+        loginAction,
+        role,
+        email,
+        setEmail,
+        otp,
+        setOTP,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-    return useContext(AuthContext)
-}
-
-export { useAuth, AuthProvider }
+export { useAuth, AuthProvider };

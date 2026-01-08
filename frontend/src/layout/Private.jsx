@@ -1,16 +1,21 @@
-import React from "react";
-import { Navigate,Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../auth/authProvider";
 
+const PrivateRoute = ({ allowedRoles }) => {
+  const { role } = useAuth();
+  const token = localStorage.getItem("authToken");
 
-const PrivateRoute=()=>{
+  // not logged in
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
 
-    const token = localStorage.getItem("authToken");
-    if(!token)
-    {
-        return <Navigate to="/" />;
-    }
-    return <Outlet/>
-}
+  // role not allowed
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
+  return <Outlet />;
+};
 
-export {PrivateRoute}
+export default PrivateRoute;
