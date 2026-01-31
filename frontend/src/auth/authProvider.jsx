@@ -115,7 +115,7 @@ const AuthProvider = ({ children }) => {
 
       // --- ROLE-BASED NAVIGATION ---
       if (normalizedRole === "it_support") {
-        navigate("/it-dashboard");
+        navigate("/dashboard");
       } else if (normalizedRole === "employee") {
         navigate("/dashboard");
       } else {

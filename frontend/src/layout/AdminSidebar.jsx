@@ -33,7 +33,7 @@ const AdminSidebar = () => {
             <>
               <li>
                 <NavLink
-                  to="/it-dashboard"
+                  to="/dashboard"
                   className={({ isActive }) =>
                     isActive ? "nav-link active-link" : "nav-link"
                   }
@@ -55,8 +55,10 @@ const AdminSidebar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/it-dashboard" // Linking Status to dashboard for now as they are related
-                  className="nav-link"
+                  to="/it-dashboard" // Linking Status to IT Dashboard (defects view)
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active-link" : "nav-link"
+                  }
                 >
                   <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
                   Status
