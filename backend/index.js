@@ -39,6 +39,11 @@ db.getConnection((err, connection) => {
     }
 });
 
+// Health check route
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok", message: "Server is running" });
+});
+
 // This line adds the "/api" prefix that Netlify is looking for
 app.use("/api", route); // Fixed: changed 'router' to 'route'
 
