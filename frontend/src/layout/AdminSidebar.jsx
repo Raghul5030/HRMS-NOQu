@@ -28,61 +28,108 @@ const AdminSidebar = () => {
         </div>
 
         <ul className="admin_menu_list">
-          {/* Dashboard → ALL ROLES */}
-          <li>
-            <NavLink
-              to="/dashboard"
-              end
-              className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"
-              }
-            >
-              <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-              Dashboard
-            </NavLink>
-          </li>
-
-          {/* HR ONLY */}
-          {role === "hr" && (
+          {/* IT SUPPORT ONLY */}
+          {role === "it_support" && (
             <>
               <li>
-                <NavLink to="/interview" className="nav-link">
+                <NavLink
+                  to="/it-dashboard"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active-link" : "nav-link"
+                  }
+                >
                   <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-                  Interview
+                  Dashboard
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/onboarding" className="nav-link">
+                <NavLink
+                  to="/asset"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active-link" : "nav-link"
+                  }
+                >
                   <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-                  Onboard
+                  Assets
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/documents" className="nav-link">
+                <NavLink
+                  to="/it-dashboard" // Linking Status to dashboard for now as they are related
+                  className="nav-link"
+                >
                   <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-                  Documents
+                  Status
                 </NavLink>
               </li>
             </>
           )}
 
-          {/* HR + EMPLOYEE */}
-          {(role === "hr" || role === "employee") && (
-            <li>
-              <NavLink to="/employees" className="nav-link">
-                <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-                Employee
-              </NavLink>
-            </li>
-          )}
+          {/* OTHER ROLES (HR, Employee, etc...) */}
+          {role !== "it_support" && (
+            <>
+              {/* Dashboard → ALL ROLES EXCEPT IT */}
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active-link" : "nav-link"
+                  }
+                >
+                  <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                  Dashboard
+                </NavLink>
+              </li>
 
-          {/* ALL ROLES */}
-          <li>
-            <NavLink to="/asset" className="nav-link">
-              <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-              Assets
-            </NavLink>
-          </li>
+              {/* HR ONLY */}
+              {role === "hr" && (
+                <>
+                  <li>
+                    <NavLink to="/interview" className="nav-link">
+                      <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                      Interview
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/onboarding" className="nav-link">
+                      <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                      Onboard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/documents" className="nav-link">
+                      <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                      Documents
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
+              {/* HR + EMPLOYEE */}
+              {(role === "hr" || role === "employee") && (
+                <li>
+                  <NavLink to="/employees" className="nav-link">
+                    <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                    Employee
+                  </NavLink>
+                </li>
+              )}
+
+              {/* ALL ROLES EXCEPT IT (IT has its own Asset link above to maintain order if desired, or we can reuse this one. 
+                  Refactoring to keep 'Asset' distinct if needed, but for now blocking it here to avoid duplication if we want custom order for IT) 
+                  Actually, the user wants 'Dashboard, Assets, Status'. 
+                  If I include 'Asset' in the general list below, it appears at the bottom. 
+                  If I want specific order for IT, I should exclude IT from the general list below.
+              */}
+              <li>
+                <NavLink to="/asset" className="nav-link">
+                  <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                  Assets
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </div>
 

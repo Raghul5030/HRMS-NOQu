@@ -43,7 +43,7 @@ function App() {
       <Route path="/interviewForm" element={<InterviewForm />} />
       <Route path="/interview-success" element={<InterviewSuccess />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="/it-dashboard" element={<Itsupportdashboard />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
 
       {/* -------- ALL LOGGED-IN USERS -------- */}
       <Route
@@ -52,6 +52,7 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/asset" element={<Asset />} />
+          <Route path="/it-dashboard" element={<Itsupportdashboard />} />
         </Route>
       </Route>
 
