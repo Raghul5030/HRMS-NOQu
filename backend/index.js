@@ -5,8 +5,15 @@ import cors from "cors";
 import route from "./routes/routes.js";
 
 const app = express();
-// This line adds the "/api" prefix that Netlify is looking for
-app.use("/api", route); // Fixed: changed 'router' to 'route'
+
+app.use(cors({
+    origin: ["https://officenoqu.com", "http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}));
+app.use(bodyparser.json());
+app.use(express.urlencoded({ extended: true }));
 
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'bvcymhrq4n5yygspnwvr-mysql.services.clever-cloud.com',
@@ -23,7 +30,6 @@ const db = mysql.createPool({
     }
 });
 
-
 db.getConnection((err, connection) => {
     if (err) {
         console.error("MySQL pool connection failed:", err);
@@ -33,13 +39,9 @@ db.getConnection((err, connection) => {
     }
 });
 
-app.use(bodyparser.json());
-app.use(cors());
+// This line adds the "/api" prefix that Netlify is looking for
+app.use("/api", route); // Fixed: changed 'router' to 'route'
 
-app.get("/hi", (req, res) => {
-    res.send("Hello world");
-});
-app.use(express.urlencoded({ extended: true }));
 
 // app.use("/", route);
 
