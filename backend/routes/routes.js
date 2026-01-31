@@ -1,8 +1,9 @@
 import express from 'express'
-import {updateList,getInterviewList,getuserById,AddEmployee,DeleteInterview,GetEmployee,getDocDetial,DocStatusUpdate,GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list, UpdateRejectReason, Addonboard, addInterview,GetAssetDefects} from '../controller/controller.js'
+import { updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list, UpdateRejectReason, Addonboard, addInterview, GetAssetDefects } from '../controller/controller.js'
 
 
-const route=express.Router()
+const route = express.Router()
+
 
 /*route.get("/getform",getInterviewList1);
 route.post("/UpdateInterview",UpdateInterview_list)

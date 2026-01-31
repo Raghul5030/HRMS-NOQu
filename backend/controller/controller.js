@@ -454,7 +454,7 @@ const Login = (req, res) => {
     // If it's an employee (role_id 2), use employee_id as the password.
     // Otherwise, use the standard PASSWORD column.
     if (user.role_id === 2) {
-      if (password === user.employee_id) {
+      if (String(password) === String(user.employee_id)) {
         isAuthorized = true;
       }
     } else {

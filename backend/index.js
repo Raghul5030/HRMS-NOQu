@@ -5,6 +5,8 @@ import cors from "cors";
 import route from "./routes/routes.js";
 
 const app = express();
+// This line adds the "/api" prefix that Netlify is looking for
+app.use("/api", router);
 
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'bvcymhrq4n5yygspnwvr-mysql.services.clever-cloud.com',

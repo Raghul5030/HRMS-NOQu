@@ -117,16 +117,16 @@ const AuthProvider = ({ children }) => {
       if (normalizedRole === "it_support") {
         navigate("/it-dashboard");
       } else if (normalizedRole === "employee") {
-        navigate("/employee-dashboard");
+        navigate("/dashboard");
       } else {
         // This covers "hr" or any other admin roles
         navigate("/dashboard");
       }
-      
+
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Login failed. Please try again",
+        "Login failed. Please try again",
         {
           position: "top-right",
           duration: 5000,
