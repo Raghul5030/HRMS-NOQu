@@ -6,7 +6,7 @@ import { LoginPage } from "./auth/AdminLogin.jsx";
 import { EnterEmailPage } from "./auth/email.jsx";
 import { EmailVerificationPage } from "./auth/emialVerification.jsx";
 import { ForgetPassword } from "./auth/ForgetPassword.jsx";
-import Itsupportdashboard from "./layout/Itsupportdashboard";
+import Itsupportdashboard from "./layout/ITsupportDashboard.jsx";
 
 
 
@@ -72,7 +72,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
-    
+
   );
 }
 
