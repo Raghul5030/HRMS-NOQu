@@ -6,7 +6,7 @@ import route from "./routes/routes.js";
 
 const app = express();
 // This line adds the "/api" prefix that Netlify is looking for
-app.use("/api", router);
+app.use("/api", route); // Fixed: changed 'router' to 'route'
 
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'bvcymhrq4n5yygspnwvr-mysql.services.clever-cloud.com',
@@ -41,7 +41,7 @@ app.get("/hi", (req, res) => {
 });
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", route);
+// app.use("/", route);
 
 const PORT = process.env.PORT || 3000;
 
