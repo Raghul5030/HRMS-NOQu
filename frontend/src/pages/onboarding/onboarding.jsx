@@ -60,24 +60,30 @@ const Onboarding = () => {
   const Popup1 = ({ user }) => {
     let [errorMessage, setErrorMessage] = useState('');
     let [flag, setFlag] = useState("");
+    let [isSubmitting, setIsSubmitting] = useState(false);
+    let [isValidated, setIsValidated] = useState(false);
 
     const EmployeeId_Validation = async () => {
       if ((formData.EMPLOYEE_ID || "").length === 0) {
         setErrorMessage("❗ Employee ID cannot be empty");
         setFlag(false);
+        setIsValidated(false);
       } else {
         try {
           const Eid = await axios.get(`${import.meta.env.VITE_API_URL}/getuser/${formData.EMPLOYEE_ID}`);
           if (Eid.data.message !== "found") {
             setErrorMessage(`✅ ${formData.EMPLOYEE_ID} does not exist. You can proceed.`);
             setFlag(true);
+            setIsValidated(true);
           } else {
             setErrorMessage(`❌ ${formData.EMPLOYEE_ID} already exists`);
             setFlag(false);
+            setIsValidated(false);
           }
         } catch (err) {
           setErrorMessage("Error checking Employee ID");
           setFlag(false);
+          setIsValidated(false);
         }
       }
     };

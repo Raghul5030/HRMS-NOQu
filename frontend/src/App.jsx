@@ -6,6 +6,9 @@ import { LoginPage } from "./auth/AdminLogin.jsx";
 import { EnterEmailPage } from "./auth/email.jsx";
 import { EmailVerificationPage } from "./auth/emialVerification.jsx";
 import { ForgetPassword } from "./auth/ForgetPassword.jsx";
+import Itsupportdashboard from "./layout/Itsupportdashboard";
+
+
 
 /* LAYOUT */
 import AdminLayout from "./layout/AdminLayout.jsx";
@@ -40,6 +43,7 @@ function App() {
       <Route path="/interviewForm" element={<InterviewForm />} />
       <Route path="/interview-success" element={<InterviewSuccess />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/it-dashboard" element={<Itsupportdashboard />} />
 
       {/* -------- ALL LOGGED-IN USERS -------- */}
       <Route
@@ -68,6 +72,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
+    
   );
 }
 
