@@ -11,6 +11,98 @@ const Asset = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("NAME");
 
+  // RESTORED: Pagination and Filtering Logic
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(7);
+
+  const filteredUsers = Array.isArray(user) ? user.filter((x) => {
+    return search === ""
+      ? x
+      : x[filter]
+        ?.toLowerCase()
+        .replace(/\s/g, "")
+        .includes(search.toLowerCase().replace(/\s/g, ""));
+  }) : [];
+
+  const lastItemIndex = currentPage * itemPerPage;
+  const firstItemIndex = lastItemIndex - itemPerPage;
+  const thisPageItems = filteredUsers.slice(firstItemIndex, lastItemIndex);
+
+  const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
+    const getPageNumbers = () => {
+      const pageNumbers = [];
+
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
+      } else {
+        if (currentPage <= 4) {
+          pageNumbers.push(1, 2, 3, 4, 5, "...", totalPages);
+        } else if (currentPage > totalPages - 4) {
+          pageNumbers.push(
+            1,
+            "...",
+            totalPages - 4,
+            totalPages - 3,
+            totalPages - 2,
+            totalPages - 1,
+            totalPages
+          );
+        } else {
+          pageNumbers.push(
+            1,
+            "...",
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            "...",
+            totalPages
+          );
+        }
+      }
+
+      return pageNumbers;
+    };
+
+    return (
+      <div className="flex justify-center mt-6 space-x-2">
+        {/* Prev Button */}
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+          className="px-2 py-1 border text-sm hover:bg-gray-100 rounded border-gray-500"
+        >
+          ᐊ
+        </button>
+
+        {/* Page Numbers */}
+        {getPageNumbers().map((page, index) => (
+          <button
+            key={index}
+            onClick={() => typeof page === 'number' && setCurrentPage(page)}
+            disabled={page === "..."}
+            className={`px-2.5 py-1 border text-sm ${currentPage === page
+              ? "bg-yellow-500 text-white border-yellow-500 rounded "
+              : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
+              } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
+          >
+            {page}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+          }
+          className="px-2 py-1 border border-gray-600 text-sm hover:bg-gray-100 rounded"
+        >
+          ᐅ
+        </button>
+      </div>
+    );
+  };
+
   // ... (keeping existing imports and state)
 
   // REPORT DEFECT MODAL
@@ -160,97 +252,7 @@ const Asset = () => {
         });
     };
 
-    // RESTORED: Pagination and Filtering Logic
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage, setItemPerPage] = useState(7);
 
-    const filteredUsers = Array.isArray(user) ? user.filter((x) => {
-      return search === ""
-        ? x
-        : x[filter]
-          ?.toLowerCase()
-          .replace(/\s/g, "")
-          .includes(search.toLowerCase().replace(/\s/g, ""));
-    }) : [];
-
-    const lastItemIndex = currentPage * itemPerPage;
-    const firstItemIndex = lastItemIndex - itemPerPage;
-    const thisPageItems = filteredUsers.slice(firstItemIndex, lastItemIndex);
-
-    const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
-      const getPageNumbers = () => {
-        const pageNumbers = [];
-
-        if (totalPages <= 7) {
-          for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(i);
-          }
-        } else {
-          if (currentPage <= 4) {
-            pageNumbers.push(1, 2, 3, 4, 5, "...", totalPages);
-          } else if (currentPage > totalPages - 4) {
-            pageNumbers.push(
-              1,
-              "...",
-              totalPages - 4,
-              totalPages - 3,
-              totalPages - 2,
-              totalPages - 1,
-              totalPages
-            );
-          } else {
-            pageNumbers.push(
-              1,
-              "...",
-              currentPage - 1,
-              currentPage,
-              currentPage + 1,
-              "...",
-              totalPages
-            );
-          }
-        }
-
-        return pageNumbers;
-      };
-
-      return (
-        <div className="flex justify-center mt-6 space-x-2">
-          {/* Prev Button */}
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-            className="px-2 py-1 border text-sm hover:bg-gray-100 rounded border-gray-500"
-          >
-            ᐊ
-          </button>
-
-          {/* Page Numbers */}
-          {getPageNumbers().map((page, index) => (
-            <button
-              key={index}
-              onClick={() => typeof page === 'number' && setCurrentPage(page)}
-              disabled={page === "..."}
-              className={`px-2.5 py-1 border text-sm ${currentPage === page
-                ? "bg-yellow-500 text-white border-yellow-500 rounded "
-                : "text-gray-700 hover:bg-yellow-100 rounded border-gray-600"
-                } ${page === "..." ? "cursor-default text-gray-400" : ""}`}
-            >
-              {page}
-            </button>
-          ))}
-
-          {/* Next Button */}
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-            }
-            className="px-2 py-1 border border-gray-600 text-sm hover:bg-gray-100 rounded"
-          >
-            ᐅ
-          </button>
-        </div>
-      );
-    };
 
     const handleStatus = async (EMPLOYEE_ID) => {
       if (!EMPLOYEE_ID) {
