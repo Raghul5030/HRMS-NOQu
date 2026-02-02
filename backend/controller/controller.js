@@ -357,18 +357,18 @@ const GetAssets = (req, res) => {
 };
 
 const ReportDefect = (req, res) => {
-  const { employee_id, asset_name, defect_description } = req.body;
+  const { employee_id, asset_name, defect_description, priority } = req.body;
 
   if (!employee_id || !defect_description) {
     return res.status(400).json({ message: "Employee ID and defect description are required." });
   }
 
   const query = `
-        INSERT INTO asset_defects (asset_name, defect_description, status, reported_by, created_at)
-        VALUES (?, ?, 'Pending', ?, NOW())
+        INSERT INTO asset_defects (asset_name, defect_description, status, reported_by, priority, created_at)
+        VALUES (?, ?, 'Pending', ?, ?, NOW())
     `;
 
-  db.query(query, [asset_name || 'General', defect_description, employee_id], (error, result) => {
+  db.query(query, [asset_name || 'General', defect_description, employee_id, priority || 'P3'], (error, result) => {
     if (error) {
       console.error("Error reporting defect:", error);
       return res.status(500).json({
@@ -957,12 +957,17 @@ const GetAssetDefects = (req, res) => {
             ad.asset_name, 
             ad.defect_description, 
             ad.status, 
+            ad.priority,
             ad.created_at,
             e.NAME as employee_name,
             e.MAIL_ID as employee_email
         FROM asset_defects ad
         LEFT JOIN employees e ON ad.reported_by = e.EMPLOYEE_ID
-        ORDER BY ad.created_at DESC
+        ORDER BY CASE 
+            WHEN ad.priority = 'P1' THEN 1 
+            WHEN ad.priority = 'P2' THEN 2 
+            ELSE 3 
+        END ASC, ad.created_at DESC
     `;
 
   db.query(query, (error, results) => {

@@ -36,15 +36,16 @@ const Itsupportdashboard = () => {
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Reported By</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Asset</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Description</th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Priority</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Date</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Status</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan="5" className="text-center py-10">Loading defect reports...</td></tr>
+              <tr><td colSpan="6" className="text-center py-10">Loading defect reports...</td></tr>
             ) : defects.length === 0 ? (
-              <tr><td colSpan="5" className="text-center py-10 text-gray-500">No defects reported yet.</td></tr>
+              <tr><td colSpan="6" className="text-center py-10 text-gray-500">No defects reported yet.</td></tr>
             ) : (
               defects.map((defect) => (
                 <tr key={defect.id} className="border-b hover:bg-gray-50 transition-colors">
@@ -54,6 +55,23 @@ const Itsupportdashboard = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700 font-semibold">{defect.asset_name}</td>
                   <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{defect.defect_description}</td>
+                  <td className="px-6 py-4">
+                    {defect.priority === 'P1' && (
+                      <span className="bg-red-100 text-red-800 text-xs font-bold px-2.5 py-1 rounded-md border border-red-200">
+                        P1 - High
+                      </span>
+                    )}
+                    {defect.priority === 'P2' && (
+                      <span className="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-md border border-yellow-200">
+                        P2 - Medium
+                      </span>
+                    )}
+                    {(defect.priority === 'P3' || !defect.priority) && (
+                      <span className="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-md border border-green-200">
+                        P3 - Low
+                      </span>
+                    )}
+                  </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {new Date(defect.created_at).toLocaleDateString()}
                   </td>

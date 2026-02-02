@@ -108,6 +108,7 @@ const Asset = () => {
   // REPORT DEFECT MODAL
   const ReportPopup = ({ user, onClose }) => {
     const [description, setDescription] = useState("");
+    const [priority, setPriority] = useState("P3");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -116,8 +117,9 @@ const Asset = () => {
       try {
         await axios.post(`${import.meta.env.VITE_API_URL}/report-defect`, {
           employee_id: user.EMPLOYEE_ID,
-          asset_name: user.NAME || 'General Asset', // Using user name or asset identifier if available. Ideally should be Asset ID/Name but table structure uses Employee row as Asset row.
-          defect_description: description
+          asset_name: user.NAME || 'General Asset',
+          defect_description: description,
+          priority: priority
         });
         toast.success("Defect reported successfully!");
         onClose();
@@ -136,14 +138,31 @@ const Asset = () => {
             Reporting issue for asset assigned to: <strong>{user.EMPLOYEE_ID}</strong>
           </p>
           <form onSubmit={handleSubmit}>
-            <textarea
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-              rows="4"
-              placeholder="Describe the issue with the asset (e.g., Laptop not charging, Screen broken)..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Issue Description</label>
+              <textarea
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 text-sm"
+                rows="4"
+                placeholder="Describe the issue with the asset (e.g., Laptop not charging, Screen broken)..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              ></textarea>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Priority Level</label>
+              <select
+                className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 text-sm"
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                required
+              >
+                <option value="P1">P1 - High Priority (Critical)</option>
+                <option value="P2">P2 - Medium Priority</option>
+                <option value="P3">P3 - Low Priority</option>
+              </select>
+            </div>
             <div className="flex justify-end gap-3 mt-4">
               <button
                 type="button"
