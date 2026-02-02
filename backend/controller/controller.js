@@ -471,7 +471,7 @@ const Login = (req, res) => {
 
     // Manual Role Mapping (since we removed the JOIN)
     const roleMapping = {
-      1: 'admin',
+      1: 'hr',
       2: 'employee',
       3: 'it_support'
     };
