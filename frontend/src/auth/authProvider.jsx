@@ -104,6 +104,7 @@ const AuthProvider = ({ children }) => {
       // store auth data
       localStorage.setItem("authToken", res.data.token);
       localStorage.setItem("role", normalizedRole);
+      localStorage.setItem("employee_id", res.data.employee_id || "");
 
       // update state
       setRole(normalizedRole);

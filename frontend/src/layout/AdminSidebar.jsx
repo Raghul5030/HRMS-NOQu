@@ -70,19 +70,21 @@ const AdminSidebar = () => {
           {/* OTHER ROLES (HR, Employee, etc...) */}
           {role !== "it_support" && (
             <>
-              {/* Dashboard → ALL ROLES EXCEPT IT */}
-              <li>
-                <NavLink
-                  to="/dashboard"
-                  end
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active-link" : "nav-link"
-                  }
-                >
-                  <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
-                  Dashboard
-                </NavLink>
-              </li>
+              {/* Dashboard → ONLY HR & ADMIN (Exclude Employee/IT) */}
+              {(role === "hr" || role === "admin") && (
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    end
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active-link" : "nav-link"
+                    }
+                  >
+                    <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                    Dashboard
+                  </NavLink>
+                </li>
+              )}
 
               {/* HR ONLY */}
               {role === "hr" && (
@@ -108,8 +110,8 @@ const AdminSidebar = () => {
                 </>
               )}
 
-              {/* HR + EMPLOYEE */}
-              {(role === "hr" || role === "employee") && (
+              {/* Employee → HR ONLY */}
+              {role === "hr" && (
                 <li>
                   <NavLink to="/employees" className="nav-link">
                     <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
