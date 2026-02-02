@@ -982,4 +982,26 @@ const GetAssetDefects = (req, res) => {
   });
 };
 
-export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect };
+const UpdateDefectStatus = (req, res) => {
+  const { id, status, it_comment } = req.body;
+
+  if (!id || !status) {
+    return res.status(400).json({ message: "Defect ID and status are required." });
+  }
+
+  const query = `
+        UPDATE asset_defects 
+        SET status = ?, it_comment = ? 
+        WHERE id = ?
+    `;
+
+  db.query(query, [status, it_comment || null, id], (error, result) => {
+    if (error) {
+      console.error("Error updating defect status:", error);
+      return res.status(500).json({ message: "Failed to update defect status", error: error.message });
+    }
+    res.json({ message: "Defect status updated successfully" });
+  });
+};
+
+export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect, UpdateDefectStatus };

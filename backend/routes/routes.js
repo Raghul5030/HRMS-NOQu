@@ -59,6 +59,7 @@ route.post("/empdoc", EmployeeDoc);
 route.post("/empass", EmployeeAsset);
 route.post("/UpdateEmpDoc", EmployeeDocUpdate);
 route.post("/report-defect", ReportDefect);
+route.post("/update-defect-status", UpdateDefectStatus);
 route.post("/empassupdate", EmployeeAssetUpdate);
 route.post("/addInterviewForm", addInterview);
 
