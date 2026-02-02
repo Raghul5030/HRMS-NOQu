@@ -219,6 +219,17 @@ const AddEmployee = (req, res) => {
     if (error) {
       return res.status(500).json({ message: "Failed to insert the employee", error: error.message });
     }
+
+    // --- NEW: Automatically create a login record for the employee ---
+    const loginQuery = `INSERT IGNORE INTO login (EMAIL, PASSWORD, role_id, employee_id, account_status) VALUES (?, ?, ?, ?, ?)`;
+    const loginValues = [MAIL_ID, EMPLOYEE_ID, 2, EMPLOYEE_ID, 'ACTIVE'];
+
+    db.query(loginQuery, loginValues, (loginError) => {
+      if (loginError) {
+        console.error("Warning: Could not create login record automatically:", loginError.message);
+      }
+    });
+
     res.status(201).json({ message: "Employee added successfully", insertedId: result.insertId });
   });
 };
