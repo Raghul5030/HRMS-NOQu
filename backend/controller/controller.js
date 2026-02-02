@@ -446,17 +446,15 @@ const Login = (req, res) => {
     return res.status(400).json({ message: "Email and Password are required." });
   }
 
-  // UPDATED QUERY: We now fetch account_status and role_id specifically
+  // UPDATED QUERY: Remove JOIN to avoid issues if roles table is missing
   const query = `
       SELECT 
         l.EMAIL,
         l.PASSWORD,
         l.employee_id,
         l.role_id,
-        l.account_status,
-        r.role_name
+        l.account_status
       FROM login l
-      JOIN roles r ON l.role_id = r.role_id
       WHERE l.EMAIL = ?
     `;
 
@@ -470,6 +468,16 @@ const Login = (req, res) => {
     }
 
     const user = results[0];
+
+    // Manual Role Mapping (since we removed the JOIN)
+    const roleMapping = {
+      1: 'admin',
+      2: 'employee',
+      3: 'it_support'
+    };
+
+    // Assign role_name to user object
+    user.role_name = roleMapping[user.role_id] || 'unknown';
 
     // 1. CONDITION: Account must be ACTIVE
     if (user.account_status !== 'ACTIVE') {
