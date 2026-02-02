@@ -359,7 +359,11 @@ const ReportDefect = (req, res) => {
 
   db.query(query, [asset_name || 'General', defect_description, employee_id], (error, result) => {
     if (error) {
-      return res.status(500).json({ message: "Failed to submit defect report", error: error.message });
+      console.error("Error reporting defect:", error);
+      return res.status(500).json({
+        message: "Failed to submit defect report. Ensure 'asset_defects' table exists.",
+        error: error.message
+      });
     }
     res.status(201).json({ message: "Defect reported successfully" });
   });
@@ -946,18 +950,19 @@ const GetAssetDefects = (req, res) => {
             e.NAME as employee_name,
             e.MAIL_ID as employee_email
         FROM asset_defects ad
-        JOIN employees e ON ad.reported_by = e.EMPLOYEE_ID
+        LEFT JOIN employees e ON ad.reported_by = e.EMPLOYEE_ID
         ORDER BY ad.created_at DESC
     `;
 
   db.query(query, (error, results) => {
     if (error) {
+      console.error("Error fetching defect reports:", error);
       return res.status(500).json({
-        message: "Failed to fetch defect reports",
+        message: "Failed to fetch defect reports. Ensure 'asset_defects' table exists.",
         error: error.message
       });
     }
-    res.json(results);
+    res.json(results || []);
   });
 };
 

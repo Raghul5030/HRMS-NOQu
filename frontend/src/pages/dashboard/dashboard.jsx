@@ -29,24 +29,24 @@ const Dashboard = () => {
         const empRes = await axios.get(`${import.meta.env.VITE_API_URL}/getEmployee`);
         const onboardRes = await axios.get(`${import.meta.env.VITE_API_URL}/getUsers`);
 
-        setEmployeeCount(empRes.data.length);
-        setActiveEmployeeCount(empRes.data.filter(emp => emp.EMPLOYEE_ACTIVE_STATUS).length);
-        setOnboardingCount(onboardRes.data.length);
+        setEmployeeCount(empRes.data?.length || 0);
+        setActiveEmployeeCount(Array.isArray(empRes.data) ? empRes.data.filter(emp => emp?.EMPLOYEE_ACTIVE_STATUS).length : 0);
+        setOnboardingCount(onboardRes.data?.length || 0);
 
-        const sortedEmployees = [...empRes.data].sort(
+        const sortedEmployees = Array.isArray(empRes.data) ? [...empRes.data].sort(
           (a, b) => new Date(b.DATE_OF_JOINING) - new Date(a.DATE_OF_JOINING)
-        ).slice(0, 5);
+        ).slice(0, 5) : [];
         setRecentEmployees(sortedEmployees);
 
         // Interview data
         const interviewRes = await axios.get(`${import.meta.env.VITE_API_URL}/getform`);
-        const totalInterviews = interviewRes.data.length;
+        const totalInterviews = interviewRes.data?.length || 0;
 
         setInterviewStats({
           total: totalInterviews,
-          requested: interviewRes.data.filter(i => i.STATUS === "Requested").length,
-          selected: interviewRes.data.filter(i => i.STATUS === "Selected").length,
-          rejected: interviewRes.data.filter(i => i.STATUS === "Rejected").length
+          requested: Array.isArray(interviewRes.data) ? interviewRes.data.filter(i => i.STATUS === "Requested").length : 0,
+          selected: Array.isArray(interviewRes.data) ? interviewRes.data.filter(i => i.STATUS === "Selected").length : 0,
+          rejected: Array.isArray(interviewRes.data) ? interviewRes.data.filter(i => i.STATUS === "Rejected").length : 0
         });
 
 
