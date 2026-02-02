@@ -192,20 +192,14 @@ const Asset = () => {
   const role = localStorage.getItem("role");
   const current_employee_id = localStorage.getItem("employee_id"); // Or however it's stored
 
-  const getDetials = async () => {
-    let url = `${import.meta.env.VITE_API_URL}/getAssets`;
-
-    // If Employee, filter by their ID
-    if (role === 'employee' || role === 'Employee') { // Handling potential case variations
-      url += `?employee_id=${current_employee_id}`;
-    }
-
-    const res = await axios.get(url);
+  const getDetails = async () => {
+    // alert("Note: Updates may take time to appear due to server limits after submiting Interview form.");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/getAssets`);
     setuser(res.data);
   };
 
   useEffect(() => {
-    getDetials();
+    getDetails();
   }, []);
 
   const Popup1 = ({ user }) => {
@@ -251,7 +245,7 @@ const Asset = () => {
       setFormData({ ...formData, [name]: value });
     };
 
-    const submitHandaler = async (req, res) => {
+    const submitHandaler = async () => {
       await axios
         .post(`${import.meta.env.VITE_API_URL}/UpdateAsset`, formData)
 
@@ -260,7 +254,7 @@ const Asset = () => {
             position: "top-right",
             duration: 5000,
           });
-          getDetials();
+          getDetails();
           setOpenPopup1(false);
         })
         .catch((error) => {
