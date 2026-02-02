@@ -132,6 +132,16 @@ const AdminSidebar = () => {
                   Assets
                 </NavLink>
               </li>
+
+              {/* Employee Issue Status */}
+              {(role === "employee") && (
+                <li>
+                  <NavLink to="/issue-status" className="nav-link">
+                    <img src={Admin_dashboard} width={15} style={{ marginRight: 8 }} />
+                    Issue Status
+                  </NavLink>
+                </li>
+              )}
             </>
           )}
         </ul>

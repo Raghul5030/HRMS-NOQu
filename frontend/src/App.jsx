@@ -20,6 +20,7 @@ import { Onboarding } from "./pages/onboarding/onboarding.jsx";
 import { Employees } from "./pages/employe/employe.jsx";
 import { Documents } from "./pages/documents/documents.jsx";
 import { Asset } from "./pages/assets-page/assets.jsx";
+import IssueStatus from "./pages/assets-page/IssueStatus.jsx";
 import { Interview } from "./pages/interview/intervies.jsx";
 import Unauthorized from "./pages/unauthorized/Unauthorized.jsx";
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/asset" element={<Asset />} />
           <Route path="/it-dashboard" element={<Itsupportdashboard />} />
+          <Route path="/issue-status" element={<IssueStatus />} />
         </Route>
       </Route>
 

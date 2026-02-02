@@ -1004,4 +1004,34 @@ const UpdateDefectStatus = (req, res) => {
   });
 };
 
-export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect, UpdateDefectStatus };
+const GetMyDefects = (req, res) => {
+  const { employee_id } = req.query;
+
+  if (!employee_id) {
+    return res.status(400).json({ message: "Employee ID is required." });
+  }
+
+  const query = `
+        SELECT 
+            ad.id, 
+            ad.asset_name, 
+            ad.defect_description, 
+            ad.status, 
+            ad.priority,
+            ad.it_comment,
+            ad.created_at
+        FROM asset_defects ad
+        WHERE ad.reported_by = ?
+        ORDER BY ad.created_at DESC
+    `;
+
+  db.query(query, [employee_id], (error, results) => {
+    if (error) {
+      console.error("Error fetching my defects:", error);
+      return res.status(500).json({ message: "Failed to fetch your defects", error: error.message });
+    }
+    res.json(results || []);
+  });
+};
+
+export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect, UpdateDefectStatus, GetMyDefects };
