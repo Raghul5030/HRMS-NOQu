@@ -9,7 +9,7 @@ const Itsupportdashboard = () => {
     const fetchDefects = async () => {
       try {
         // Ensure this matches your backend URL
-        const response = await axios.get("http://localhost:5000/asset-defects");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/asset-defects`);
         setDefects(response.data);
       } catch (error) {
         console.error("Error fetching defects:", error);
@@ -28,7 +28,7 @@ const Itsupportdashboard = () => {
           Total Issues: {defects.length}
         </span>
       </div>
-      
+
       <div className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100 border-b">
@@ -58,9 +58,8 @@ const Itsupportdashboard = () => {
                     {new Date(defect.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                      defect.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
-                    }`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${defect.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+                      }`}>
                       {defect.status}
                     </span>
                   </td>
