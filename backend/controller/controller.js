@@ -317,9 +317,17 @@ const DocStatusUpdate = (req, res) => {
 };
 
 const GetAssets = (req, res) => {
-  const query = 'SELECT * FROM assets';
+  const { employee_id } = req.query;
 
-  db.query(query, (error, results) => {
+  let query = 'SELECT * FROM assets';
+  let params = [];
+
+  if (employee_id) {
+    query += ' WHERE EMPLOYEE_ID = ?';
+    params.push(employee_id);
+  }
+
+  db.query(query, params, (error, results) => {
     if (error) {
       return res.json({ error: 'Database query failed', details: error.message });
     }
@@ -334,6 +342,26 @@ const GetAssets = (req, res) => {
     });
 
     res.json(cleanedResults);
+  });
+};
+
+const ReportDefect = (req, res) => {
+  const { employee_id, asset_name, defect_description } = req.body;
+
+  if (!employee_id || !defect_description) {
+    return res.status(400).json({ message: "Employee ID and defect description are required." });
+  }
+
+  const query = `
+        INSERT INTO asset_defects (asset_name, defect_description, status, reported_by, created_at)
+        VALUES (?, ?, 'Pending', ?, NOW())
+    `;
+
+  db.query(query, [asset_name || 'General', defect_description, employee_id], (error, result) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to submit defect report", error: error.message });
+    }
+    res.status(201).json({ message: "Defect reported successfully" });
   });
 };
 
@@ -925,4 +953,4 @@ const GetAssetDefects = (req, res) => {
   });
 };
 
-export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects };
+export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect };

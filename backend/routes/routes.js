@@ -1,5 +1,5 @@
 import express from 'express'
-import { updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list, UpdateRejectReason, Addonboard, addInterview, GetAssetDefects } from '../controller/controller.js'
+import { updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list, UpdateRejectReason, Addonboard, addInterview, GetAssetDefects, ReportDefect } from '../controller/controller.js'
 
 
 const route = express.Router()
@@ -58,6 +58,7 @@ route.post("/udassets", UpdateAssetsStatus);
 route.post("/empdoc", EmployeeDoc);
 route.post("/empass", EmployeeAsset);
 route.post("/UpdateEmpDoc", EmployeeDocUpdate);
+route.post("/report-defect", ReportDefect);
 route.post("/empassupdate", EmployeeAssetUpdate);
 route.post("/addInterviewForm", addInterview);
 
