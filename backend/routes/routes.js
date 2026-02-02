@@ -25,7 +25,7 @@ route.post("/addinter", Addonboard)
 route.post("/cloudinary-signature", Cloudinary)
 
 route.post("/login", Login)
-route.post("/report-defect", ReportDefect)
+route.post("/update-defect-status", UpdateDefectStatus)
 route.post("/UpdateAsset", UpdateAssets)
 route.post("/UpdateAssets", UpdateAssets)
 route.post("/udassets", UpdateAssetsStatus)
