@@ -8,9 +8,10 @@ const app = express();
 
 app.use(cors({
     origin: ["https://officenoqu.com", "http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
+    credentials: true,
+    optionsSuccessStatus: 204
 }));
 app.use(bodyparser.json());
 app.use(express.urlencoded({ extended: true }));
