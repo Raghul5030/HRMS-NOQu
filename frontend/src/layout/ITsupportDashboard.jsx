@@ -63,15 +63,15 @@ const Itsupportdashboard = () => {
 
       <div className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-100 border-b">
+          <thead className="bg-yellow-400 border-b border-yellow-500">
             <tr>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Employee</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Asset</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Description</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Priority</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">IT Comment</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Status</th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-600">Action</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">Employee</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">Asset</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">Description</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">Priority</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">IT Comment</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900 border-r border-yellow-500">Status</th>
+              <th className="px-6 py-4 text-sm font-bold text-yellow-900">Action</th>
             </tr>
           </thead>
           <tbody>
