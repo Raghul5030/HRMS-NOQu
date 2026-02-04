@@ -1036,26 +1036,6 @@ const GetMyDefects = (req, res) => {
   });
 };
 
-const UpdateSchema = (req, res) => {
-  const query = `
-    ALTER TABLE employee_doc
-    MODIFY COLUMN TENTH VARCHAR(1000),
-    MODIFY COLUMN TWELFTH VARCHAR(1000),
-    MODIFY COLUMN DEGREE VARCHAR(1000),
-    MODIFY COLUMN AADHAR VARCHAR(1000),
-    MODIFY COLUMN PAN VARCHAR(1000),
-    MODIFY COLUMN RELIEVING_LETTER VARCHAR(1000),
-    MODIFY COLUMN PAY_SLIP_3_MONTHS VARCHAR(1000),
-    MODIFY COLUMN PARENTS_AADHAR VARCHAR(1000);
-  `;
-
-  db.query(query, (error, result) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to update schema", error: error.message });
-    }
-    res.json({ message: "Schema updated successfully! Columns are now VARCHAR(1000)." });
-  });
-};
 
 export {
   getInterviewList,
@@ -1086,6 +1066,6 @@ export {
   GetAssetDefects,
   ReportDefect,
   UpdateDefectStatus,
-  GetMyDefects,
-  UpdateSchema
+  GetMyDefects
 };
+
