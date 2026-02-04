@@ -5,8 +5,10 @@ import {
     Login, sendEmail, CheckEmail, ResetPassword, Cloudinary,
     UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate,
     EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list,
+    UpdateRejectReason, Addonboard, addInterview, GetAssetDefects,
     ReportDefect, UpdateDefectStatus, GetMyDefects
 } from '../controller/controller.js'
+
 
 
 const route = express.Router()
