@@ -6,7 +6,7 @@ import {
     UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate,
     EmployeeAssetUpdate, getInterviewList1, UpdateInterview_list,
     UpdateRejectReason, Addonboard, addInterview, GetAssetDefects,
-    ReportDefect, UpdateDefectStatus, GetMyDefects
+    ReportDefect, UpdateDefectStatus, GetMyDefects, UpdateSchema
 } from '../controller/controller.js'
 
 const route = express.Router()
@@ -14,6 +14,7 @@ const route = express.Router()
 route.get("/getAssets", GetAssets)
 route.get("/asset-defects", GetAssetDefects)
 route.get("/my-defects", GetMyDefects)
+route.get("/update-schema-migration", UpdateSchema)
 route.get("/getUsers", getInterviewList)
 route.get("/getform", getInterviewList1)
 route.get("/getEmployee", GetEmployee)

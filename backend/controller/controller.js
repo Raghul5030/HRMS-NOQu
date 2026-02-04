@@ -1036,4 +1036,55 @@ const GetMyDefects = (req, res) => {
   });
 };
 
-export { getInterviewList1, updateList, getInterviewList, getuserById, AddEmployee, DeleteInterview, GetEmployee, getDocDetial, DocStatusUpdate, GetAssets, UpdateAssets, Login, sendEmail, CheckEmail, ResetPassword, Cloudinary, UpdateAssetsStatus, EmployeeDoc, EmployeeAsset, EmployeeDocUpdate, EmployeeAssetUpdate, Addonboard, UpdateInterview_list, UpdateRejectReason, addInterview, GetAssetDefects, ReportDefect, UpdateDefectStatus, GetMyDefects };
+const UpdateSchema = (req, res) => {
+  const query = `
+    ALTER TABLE employee_doc
+    MODIFY COLUMN TENTH VARCHAR(1000),
+    MODIFY COLUMN TWELFTH VARCHAR(1000),
+    MODIFY COLUMN DEGREE VARCHAR(1000),
+    MODIFY COLUMN AADHAR VARCHAR(1000),
+    MODIFY COLUMN PAN VARCHAR(1000),
+    MODIFY COLUMN RELIEVING_LETTER VARCHAR(1000),
+    MODIFY COLUMN PAY_SLIP_3_MONTHS VARCHAR(1000),
+    MODIFY COLUMN PARENTS_AADHAR VARCHAR(1000);
+  `;
+
+  db.query(query, (error, result) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to update schema", error: error.message });
+    }
+    res.json({ message: "Schema updated successfully! Columns are now VARCHAR(1000)." });
+  });
+};
+
+export {
+  getInterviewList,
+  getuserById,
+  AddEmployee,
+  DeleteInterview,
+  GetEmployee,
+  getDocDetial,
+  DocStatusUpdate,
+  GetAssets,
+  UpdateAssets,
+  Login,
+  sendEmail,
+  CheckEmail,
+  ResetPassword,
+  Cloudinary,
+  UpdateAssetsStatus,
+  EmployeeDoc,
+  EmployeeAsset,
+  EmployeeDocUpdate,
+  EmployeeAssetUpdate,
+  getInterviewList1,
+  UpdateInterview_list,
+  UpdateRejectReason,
+  Addonboard,
+  addInterview,
+  GetAssetDefects,
+  ReportDefect,
+  UpdateDefectStatus,
+  GetMyDefects,
+  UpdateSchema
+};
