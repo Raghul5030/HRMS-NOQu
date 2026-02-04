@@ -158,8 +158,11 @@ const Documents = () => {
                         View
                       </button>
                     )}
-                    <span className={`text-sm font-semibold ${user[field] !== "0" ? 'text-green-600' : 'text-red-500'}`}>
-                      {user[field] !== "0"
+                    <span className={`text-sm font-semibold 
+                      ${(user[field] && user[field] !== "0")
+                        ? (String(user[field]).startsWith("http") ? 'text-green-600' : 'text-orange-500')
+                        : 'text-red-500'}`}>
+                      {(user[field] && user[field] !== "0")
                         ? (String(user[field]).startsWith("http") ? "Uploaded" : "Re-upload to view")
                         : " Not Uploaded"}
                     </span>
