@@ -297,7 +297,7 @@ const getDocDetial = (req, res) => {
 }
 
 const DocStatusUpdate = (req, res) => {
-  const { EMPLOYEE_ID, field } = req.body;
+  const { EMPLOYEE_ID, field, url } = req.body;
 
   const allowedFields = [
     "TENTH", "TWELFTH", "DEGREE", "AADHAR", "PAN",
@@ -312,9 +312,11 @@ const DocStatusUpdate = (req, res) => {
     return res.json({ message: "Invalid document field name." });
   }
 
-  const query = `UPDATE employee_doc SET ${field} = 1 WHERE EMPLOYEE_ID = ?`;
+  // Store the URL if provided, otherwise set to 1 for backward compatibility
+  const valueToStore = url || 1;
+  const query = `UPDATE employee_doc SET ${field} = ? WHERE EMPLOYEE_ID = ?`;
 
-  db.query(query, [EMPLOYEE_ID], (error, result) => {
+  db.query(query, [valueToStore, EMPLOYEE_ID], (error, result) => {
     if (error) {
       return res.json({ message: "Failed to update document status", error: error.message });
     }
