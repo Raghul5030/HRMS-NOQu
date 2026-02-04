@@ -1078,6 +1078,7 @@ export {
   EmployeeDocUpdate,
   EmployeeAssetUpdate,
   getInterviewList1,
+  updateList,
   UpdateInterview_list,
   UpdateRejectReason,
   Addonboard,
