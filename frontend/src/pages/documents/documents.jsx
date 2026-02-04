@@ -149,7 +149,7 @@ const Documents = () => {
                     >
                       Upload
                     </button>
-                    {user[field] && user[field] !== "0" && (
+                    {user[field] && user[field] !== "0" && String(user[field]).startsWith("http") && (
                       <button
                         type="button"
                         onClick={() => window.open(user[field], '_blank')}
@@ -159,7 +159,9 @@ const Documents = () => {
                       </button>
                     )}
                     <span className={`text-sm font-semibold ${user[field] !== "0" ? 'text-green-600' : 'text-red-500'}`}>
-                      {user[field] !== "0" ? "Uploaded" : " Not Uploaded"}
+                      {user[field] !== "0"
+                        ? (String(user[field]).startsWith("http") ? "Uploaded" : "Re-upload to view")
+                        : " Not Uploaded"}
                     </span>
 
                   </div>
