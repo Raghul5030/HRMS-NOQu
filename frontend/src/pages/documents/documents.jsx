@@ -149,6 +149,15 @@ const Documents = () => {
                     >
                       Upload
                     </button>
+                    {user[field] && user[field] !== "0" && (
+                      <button
+                        type="button"
+                        onClick={() => window.open(user[field], '_blank')}
+                        className="bg-green-600 text-white px-4 py-1.5 rounded hover:bg-green-700 text-sm"
+                      >
+                        View
+                      </button>
+                    )}
                     <span className={`text-sm font-semibold ${user[field] !== "0" ? 'text-green-600' : 'text-red-500'}`}>
                       {user[field] !== "0" ? "Uploaded" : " Not Uploaded"}
                     </span>
